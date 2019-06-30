@@ -1,0 +1,35 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="siarhei.piashko" id="changelog-001-001">
+        <sql>
+            create table customer (
+            id SERIAL PRIMARY KEY,
+            first_name TEXT NOT NULL,
+            last_name TEXT NOT NULL,
+            balance NUMERIC NOT NULL
+            );
+        </sql>
+        <rollback>
+            drop table customer;
+        </rollback>
+    </changeSet>
+
+    <changeSet author="siarhei.piashko" id="changelog-001-002">
+        <sql>
+            create table money_transfer (
+            id SERIAL PRIMARY KEY,
+            fk_from_customer INTEGER NOT NULL REFERENCES customer (id),
+            fk_to_customer INTEGER NOT NULL REFERENCES customer (id),
+            amount NUMERIC NOT NULL
+            );
+        </sql>
+        <rollback>
+            drop table money_transfer;
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

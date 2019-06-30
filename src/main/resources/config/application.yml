@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/jpa_transactional_demo_db
+    username: jpa_transactional_demo_user
+    password: jpa_transactional_demo_pass
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+  jpa:
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate.ddl-auto: none
+      hibernate.connection.provider_disables_autocommit: true
+      hibernate.temp.use_jdbc_metadata_defaults: false
+      hibernate.dialect: org.hibernate.dialect.PostgreSQL9Dialect
+      hibernate.id.new_generator_mappings: true
+      hibernate.jdbc.time_zone: UTC
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
