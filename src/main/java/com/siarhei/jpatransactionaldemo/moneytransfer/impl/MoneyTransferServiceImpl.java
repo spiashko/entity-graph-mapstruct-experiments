@@ -23,7 +23,6 @@ public class MoneyTransferServiceImpl implements MoneyTransferService {
     }
 
     @Override
-    @Transactional
     public MoneyTransfer createMoneyTransfer(MoneyTransfer moneyTransfer) {
 
         if (moneyTransfer.getId() != null) {
