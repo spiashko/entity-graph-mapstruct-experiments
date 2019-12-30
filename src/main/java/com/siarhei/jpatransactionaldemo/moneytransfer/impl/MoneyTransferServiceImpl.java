@@ -4,23 +4,22 @@ import com.siarhei.jpatransactionaldemo.customer.Customer;
 import com.siarhei.jpatransactionaldemo.customer.CustomerService;
 import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransfer;
 import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransferService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
+@RequiredArgsConstructor
+@Transactional
 @Service
 public class MoneyTransferServiceImpl implements MoneyTransferService {
 
     private final MoneyTransferRepository moneyTransferRepository;
     private final CustomerService customerService;
 
-    public MoneyTransferServiceImpl(MoneyTransferRepository moneyTransferRepository, CustomerService customerService) {
-        this.moneyTransferRepository = moneyTransferRepository;
-        this.customerService = customerService;
-    }
 
     @Override
     public MoneyTransfer createMoneyTransfer(MoneyTransfer moneyTransfer) {
@@ -32,6 +31,11 @@ public class MoneyTransferServiceImpl implements MoneyTransferService {
         moneyTransferRepository.save(moneyTransfer);
 
         updateFromCustomer(moneyTransfer);
+
+        if (true) {
+            throw new RuntimeException();
+        }
+
         updateToCustomer(moneyTransfer);
 
         return moneyTransfer;
@@ -45,7 +49,10 @@ public class MoneyTransferServiceImpl implements MoneyTransferService {
 
     @Override
     public List<MoneyTransfer> getMoneyTransfers() {
-        return moneyTransferRepository.findAll();
+
+        List<MoneyTransfer> all = moneyTransferRepository.findAll();
+
+        return all;
     }
 
     private void updateFromCustomer(MoneyTransfer moneyTransfer) {

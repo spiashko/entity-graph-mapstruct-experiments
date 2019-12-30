@@ -2,20 +2,20 @@ package com.siarhei.jpatransactionaldemo.customer.impl;
 
 import com.siarhei.jpatransactionaldemo.customer.Customer;
 import com.siarhei.jpatransactionaldemo.customer.CustomerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@RequiredArgsConstructor
+@Transactional
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
     @Override
     public Customer createCustomer(Customer customer) {
