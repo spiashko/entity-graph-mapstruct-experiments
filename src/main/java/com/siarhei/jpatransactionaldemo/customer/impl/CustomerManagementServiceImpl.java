@@ -1,21 +1,20 @@
 package com.siarhei.jpatransactionaldemo.customer.impl;
 
 import com.siarhei.jpatransactionaldemo.customer.Customer;
-import com.siarhei.jpatransactionaldemo.customer.CustomerService;
+import com.siarhei.jpatransactionaldemo.customer.CustomerManagementService;
+import com.siarhei.jpatransactionaldemo.customer.CustomerSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 @RequiredArgsConstructor
-@Transactional
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerManagementServiceImpl implements CustomerManagementService {
 
     private final CustomerRepository customerRepository;
+    private final CustomerSearchService customerSearchService;
 
     @Override
     public Customer createCustomer(Customer customer) {
@@ -28,31 +27,24 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerById(Long id) {
-
-        return customerRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("customer with id=%d not found", id)));
-    }
-
-    @Override
-    public List<Customer> getCustomers() {
-        return customerRepository.findAll();
-    }
-
-    @Override
     public void deleteCustomerById(Long id) {
 
         customerRepository.deleteById(id);
     }
 
+    @Transactional
     @Override
-    public void updateBalance(Long id, Long newBalance) {
+    public void addToBalance(Long id, Long amount) {
+        Customer customer = customerSearchService.findOneOrThrow(id);
+        customer.setBalance(customer.getBalance() + amount);
+        customerRepository.save(customer);
+    }
 
-        Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("customer with id=%d not found", id)));
-
-        customer.setBalance(newBalance);
-
+    @Transactional
+    @Override
+    public void subtractFromBalance(Long id, Long amount) {
+        Customer customer = customerSearchService.findOneOrThrow(id);
+        customer.setBalance(customer.getBalance() - amount);
         customerRepository.save(customer);
     }
 }

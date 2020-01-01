@@ -1,5 +1,6 @@
 package com.siarhei.jpatransactionaldemo.moneytransfer;
 
+import com.siarhei.jpatransactionaldemo.crudbase.entity.BaseJournalEntity;
 import com.siarhei.jpatransactionaldemo.customer.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,14 +10,10 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @Getter
 @Setter
@@ -24,12 +21,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Entity
 @Table(name = "money_transfer")
-public class MoneyTransfer implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public class MoneyTransfer extends BaseJournalEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_from_customer")

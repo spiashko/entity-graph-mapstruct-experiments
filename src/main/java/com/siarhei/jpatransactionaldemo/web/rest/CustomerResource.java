@@ -1,9 +1,12 @@
 package com.siarhei.jpatransactionaldemo.web.rest;
 
 import com.siarhei.jpatransactionaldemo.customer.Customer;
-import com.siarhei.jpatransactionaldemo.customer.CustomerMapper;
-import com.siarhei.jpatransactionaldemo.customer.CustomerService;
-import com.siarhei.jpatransactionaldemo.dto.CustomerDto;
+import com.siarhei.jpatransactionaldemo.customer.CustomerFilter;
+import com.siarhei.jpatransactionaldemo.customer.CustomerManagementService;
+import com.siarhei.jpatransactionaldemo.customer.CustomerSearchService;
+import com.siarhei.jpatransactionaldemo.web.dto.customer.CreateCustomerDto;
+import com.siarhei.jpatransactionaldemo.web.dto.customer.RetrieveCustomerDto;
+import com.siarhei.jpatransactionaldemo.web.mappers.CustomerMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,34 +25,37 @@ import java.util.stream.Collectors;
 @Controller
 public class CustomerResource {
 
-    private final CustomerService customerService;
+    private final CustomerManagementService customerManagementService;
+    private final CustomerSearchService customerSearchService;
     private final CustomerMapper customerMapper;
 
     @PostMapping("/customers")
-    public ResponseEntity<CustomerDto> createCustomer(@RequestBody Customer customer) throws URISyntaxException {
-        Customer result = customerService.createCustomer(customer);
+    public ResponseEntity<RetrieveCustomerDto> createCustomer(@RequestBody CreateCustomerDto customerDto) throws URISyntaxException {
+        Customer customer = customerMapper.map(customerDto);
+        Customer result = customerManagementService.createCustomer(customer);
+        RetrieveCustomerDto resultDto = customerMapper.map(customer);
         return ResponseEntity.created(new URI("/customers/" + result.getId()))
-                .body(customerMapper.map(customer));
+                .body(resultDto);
     }
 
     @GetMapping("/customers")
-    public ResponseEntity<List<CustomerDto>> getAllCustomers() {
-        List<Customer> customers = customerService.getCustomers();
+    public ResponseEntity<List<RetrieveCustomerDto>> getAllCustomers(CustomerFilter customerFilter) {
+        List<Customer> customers = customerSearchService.findAll(customerFilter);
         return ResponseEntity.ok(customers.stream()
                 .map(customerMapper::map)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping("/customers/{id}")
-    public ResponseEntity<CustomerDto> getCustomer(@PathVariable Long id) {
-        Customer customer = customerService.getCustomerById(id);
-        CustomerDto result = customerMapper.map(customer);
+    public ResponseEntity<RetrieveCustomerDto> getCustomer(@PathVariable Long id) {
+        Customer customer = customerSearchService.findOneOrThrow(id);
+        RetrieveCustomerDto result = customerMapper.map(customer);
         return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/customers/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
-        customerService.deleteCustomerById(id);
+        customerManagementService.deleteCustomerById(id);
         return ResponseEntity.ok().build();
     }
 

@@ -1,9 +1,12 @@
 package com.siarhei.jpatransactionaldemo.web.rest;
 
-import com.siarhei.jpatransactionaldemo.dto.MoneyTransferDto;
 import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransfer;
-import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransferMapper;
-import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransferService;
+import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransferFilter;
+import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransferManagementService;
+import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransferSearchService;
+import com.siarhei.jpatransactionaldemo.web.dto.moneytransfer.CreateMoneyTransferDto;
+import com.siarhei.jpatransactionaldemo.web.dto.moneytransfer.RetrieveMoneyTransferDto;
+import com.siarhei.jpatransactionaldemo.web.mappers.MoneyTransferMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,19 +24,22 @@ import java.util.stream.Collectors;
 @Controller
 public class MoneyTransferResource {
 
-    private final MoneyTransferService moneyTransferService;
+    private final MoneyTransferManagementService moneyTransferManagementService;
+    private final MoneyTransferSearchService moneyTransferSearchService;
     private final MoneyTransferMapper moneyTransferMapper;
 
     @PostMapping("/money-transfers")
-    public ResponseEntity<MoneyTransferDto> createMoneyTransfer(@RequestBody MoneyTransfer moneyTransfer) throws URISyntaxException {
-        MoneyTransfer result = moneyTransferService.createMoneyTransfer(moneyTransfer);
+    public ResponseEntity<RetrieveMoneyTransferDto> createMoneyTransfer(@RequestBody CreateMoneyTransferDto moneyTransferDto) throws URISyntaxException {
+        MoneyTransfer moneyTransfer = moneyTransferMapper.map(moneyTransferDto);
+        MoneyTransfer result = moneyTransferManagementService.createMoneyTransfer(moneyTransfer);
+        RetrieveMoneyTransferDto resultDto = moneyTransferMapper.map(result);
         return ResponseEntity.created(new URI("/money-transfers/" + result.getId()))
-                .body(moneyTransferMapper.map(result));
+                .body(resultDto);
     }
 
     @GetMapping("/money-transfers")
-    public ResponseEntity<List<MoneyTransferDto>> getAllMoneyTransfers() {
-        List<MoneyTransfer> moneyTransfers = moneyTransferService.getMoneyTransfers();
+    public ResponseEntity<List<RetrieveMoneyTransferDto>> getAllMoneyTransfers(MoneyTransferFilter filter) {
+        List<MoneyTransfer> moneyTransfers = moneyTransferSearchService.findAll(filter);
 
         return ResponseEntity.ok(moneyTransfers.stream()
                 .map(moneyTransferMapper::map)
@@ -41,8 +47,8 @@ public class MoneyTransferResource {
     }
 
     @GetMapping("/money-transfers/{id}")
-    public ResponseEntity<MoneyTransferDto> getMoneyTransfer(@PathVariable Long id) {
-        MoneyTransfer moneyTransfer = moneyTransferService.getMoneyTransferById(id);
+    public ResponseEntity<RetrieveMoneyTransferDto> getMoneyTransfer(@PathVariable Long id) {
+        MoneyTransfer moneyTransfer = moneyTransferSearchService.findOneOrThrow(id);
         return ResponseEntity.ok(moneyTransferMapper.map(moneyTransfer));
     }
 
