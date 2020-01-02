@@ -6,6 +6,7 @@ import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransferManagementSer
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -16,7 +17,7 @@ public class MoneyTransferManagementServiceImpl implements MoneyTransferManageme
     private final MoneyTransferRepository moneyTransferRepository;
     private final CustomerManagementService customerManagementService;
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public MoneyTransfer createMoneyTransfer(MoneyTransfer moneyTransfer) {
 

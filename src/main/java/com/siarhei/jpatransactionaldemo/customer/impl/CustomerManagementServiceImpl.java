@@ -6,6 +6,7 @@ import com.siarhei.jpatransactionaldemo.customer.CustomerSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -32,7 +33,7 @@ public class CustomerManagementServiceImpl implements CustomerManagementService 
         customerRepository.deleteById(id);
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void addToBalance(Long id, Long amount) {
         Customer customer = customerSearchService.findOneOrThrow(id);
@@ -40,7 +41,7 @@ public class CustomerManagementServiceImpl implements CustomerManagementService 
         customerRepository.save(customer);
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void subtractFromBalance(Long id, Long amount) {
         Customer customer = customerSearchService.findOneOrThrow(id);
