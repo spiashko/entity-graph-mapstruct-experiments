@@ -1,6 +1,7 @@
 package com.siarhei.jpatransactionaldemo.crudbase.spec;
 
 import com.siarhei.jpatransactionaldemo.crudbase.entity.BaseJournalEntity;
+import com.siarhei.jpatransactionaldemo.crudbase.entity.BaseJournalEntity_;
 import com.siarhei.jpatransactionaldemo.crudbase.filter.BaseJournalFilter;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -14,22 +15,22 @@ public abstract class BaseJournalSpec<T extends BaseJournalEntity, F extends Bas
     protected void addPredicatesToList(F filter, Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb, List<Predicate> predicates) {
 
         addIfNotNull(predicates, filter.getCreatedFromInstant(),
-                () -> cb.greaterThanOrEqualTo(root.get("createdAt"), filter.getCreatedFromInstant()));
+                () -> cb.greaterThanOrEqualTo(root.get(BaseJournalEntity_.createdAt), filter.getCreatedFromInstant()));
 
         addIfNotNull(predicates, filter.getCreatedToInstant(),
-                () -> cb.lessThanOrEqualTo(root.get("createdAt"), filter.getCreatedToInstant()));
+                () -> cb.lessThanOrEqualTo(root.get(BaseJournalEntity_.createdAt), filter.getCreatedToInstant()));
 
         addIfNotNull(predicates, filter.getCreatedBy(),
-                () -> root.get("createdBy").in(filter.getCreatedBy()));
+                () -> root.get(BaseJournalEntity_.createdBy).in(filter.getCreatedBy()));
 
         addIfNotNull(predicates, filter.getUpdatedFromInstant(),
-                () -> cb.greaterThanOrEqualTo(root.get("updatedAt"), filter.getUpdatedFromInstant()));
+                () -> cb.greaterThanOrEqualTo(root.get(BaseJournalEntity_.updatedAt), filter.getUpdatedFromInstant()));
 
         addIfNotNull(predicates, filter.getUpdatedToInstant(),
-                () -> cb.lessThanOrEqualTo(root.get("updatedAt"), filter.getUpdatedToInstant()));
+                () -> cb.lessThanOrEqualTo(root.get(BaseJournalEntity_.updatedAt), filter.getUpdatedToInstant()));
 
         addIfNotNull(predicates, filter.getUpdatedBy(),
-                () -> root.get("updatedBy").in(filter.getUpdatedBy()));
+                () -> root.get(BaseJournalEntity_.updatedBy).in(filter.getUpdatedBy()));
 
         addSelfPredicatesToList(filter, root, query, cb, predicates);
     }

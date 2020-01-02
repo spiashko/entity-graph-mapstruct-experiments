@@ -2,6 +2,7 @@ package com.siarhei.jpatransactionaldemo.crudbase.spec;
 
 
 import com.siarhei.jpatransactionaldemo.crudbase.entity.BaseEntity;
+import com.siarhei.jpatransactionaldemo.crudbase.entity.BaseEntity_;
 import com.siarhei.jpatransactionaldemo.crudbase.filter.BaseFilter;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -31,7 +32,7 @@ public abstract class BaseSpec<T extends BaseEntity, F extends BaseFilter> {
 
     private void addIdsPredicate(F filter, Root<T> root, List<Predicate> predicates) {
         addIfNotNull(predicates, filter.getId(),
-                () -> root.get("id").in(filter.getId()));
+                () -> root.get(BaseEntity_.id).in(filter.getId()));
     }
 
     /**
