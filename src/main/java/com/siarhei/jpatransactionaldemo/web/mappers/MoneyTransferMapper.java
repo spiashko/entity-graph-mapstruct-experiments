@@ -11,14 +11,14 @@ import org.mapstruct.Mappings;
 public interface MoneyTransferMapper {
 
     @Mappings({
-            @Mapping(target = "toCustomerId", source = "toCustomer.id"),
-            @Mapping(target = "fromCustomerId", source = "fromCustomer.id")
+            @Mapping(target = "toBankAccountId", source = "toBankAccount.id"),
+            @Mapping(target = "fromBankAccountId", source = "fromBankAccount.id")
     })
     RetrieveMoneyTransferDto map(MoneyTransfer moneyTransfer);
 
     @Mappings({
-            @Mapping(target = "toCustomer.id", source = "toCustomerId"),
-            @Mapping(target = "fromCustomer.id", source = "fromCustomerId")
+            @Mapping(target = "toBankAccount.id", source = "toBankAccountId"),
+            @Mapping(target = "fromBankAccount.id", source = "fromBankAccountId")
     })
     MoneyTransfer map(CreateMoneyTransferDto moneyTransfer);
 

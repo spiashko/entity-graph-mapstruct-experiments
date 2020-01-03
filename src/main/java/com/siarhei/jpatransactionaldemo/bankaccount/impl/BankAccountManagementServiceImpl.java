@@ -1,8 +1,8 @@
-package com.siarhei.jpatransactionaldemo.customer.impl;
+package com.siarhei.jpatransactionaldemo.bankaccount.impl;
 
-import com.siarhei.jpatransactionaldemo.customer.Customer;
-import com.siarhei.jpatransactionaldemo.customer.CustomerManagementService;
-import com.siarhei.jpatransactionaldemo.customer.CustomerSearchService;
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountManagementService;
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,13 +12,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RequiredArgsConstructor
 @Service
-public class CustomerManagementServiceImpl implements CustomerManagementService {
+public class BankAccountManagementServiceImpl implements BankAccountManagementService {
 
-    private final CustomerRepository customerRepository;
-    private final CustomerSearchService customerSearchService;
+    private final BankAccountRepository customerRepository;
+    private final BankAccountSearchService customerSearchService;
 
     @Override
-    public Customer createCustomer(Customer customer) {
+    public BankAccount createBankAccount(BankAccount customer) {
 
         if (customer.getId() != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "id must be null");
@@ -28,7 +28,7 @@ public class CustomerManagementServiceImpl implements CustomerManagementService 
     }
 
     @Override
-    public void deleteCustomerById(Long id) {
+    public void deleteBankAccountById(Long id) {
 
         customerRepository.deleteById(id);
     }
@@ -36,7 +36,7 @@ public class CustomerManagementServiceImpl implements CustomerManagementService 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void addToBalance(Long id, Long amount) {
-        Customer customer = customerSearchService.findOneOrThrow(id);
+        BankAccount customer = customerSearchService.findOneOrThrow(id);
         customer.setBalance(customer.getBalance() + amount);
         customerRepository.save(customer);
     }
@@ -44,7 +44,7 @@ public class CustomerManagementServiceImpl implements CustomerManagementService 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void subtractFromBalance(Long id, Long amount) {
-        Customer customer = customerSearchService.findOneOrThrow(id);
+        BankAccount customer = customerSearchService.findOneOrThrow(id);
         customer.setBalance(customer.getBalance() - amount);
         customerRepository.save(customer);
     }

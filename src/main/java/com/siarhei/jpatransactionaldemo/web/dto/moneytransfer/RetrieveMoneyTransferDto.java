@@ -8,8 +8,8 @@ import lombok.Setter;
 public class RetrieveMoneyTransferDto {
 
     private Long id;
-    private Long fromCustomerId;
-    private Long toCustomerId;
+    private Long fromBankAccountId;
+    private Long toBankAccountId;
     private Long amount;
 
 }

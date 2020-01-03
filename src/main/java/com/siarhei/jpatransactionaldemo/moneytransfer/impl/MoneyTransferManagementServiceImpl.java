@@ -1,21 +1,19 @@
 package com.siarhei.jpatransactionaldemo.moneytransfer.impl;
 
-import com.siarhei.jpatransactionaldemo.customer.CustomerManagementService;
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountManagementService;
 import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransfer;
 import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransferManagementService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 @RequiredArgsConstructor
 @Service
 public class MoneyTransferManagementServiceImpl implements MoneyTransferManagementService {
 
     private final MoneyTransferRepository moneyTransferRepository;
-    private final CustomerManagementService customerManagementService;
+    private final BankAccountManagementService customerManagementService;
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
@@ -26,8 +24,8 @@ public class MoneyTransferManagementServiceImpl implements MoneyTransferManageme
         }
 
         moneyTransferRepository.save(moneyTransfer);
-        customerManagementService.addToBalance(moneyTransfer.getToCustomer().getId(), moneyTransfer.getAmount());
-        customerManagementService.subtractFromBalance(moneyTransfer.getFromCustomer().getId(), moneyTransfer.getAmount());
+        customerManagementService.addToBalance(moneyTransfer.getToBankAccount().getId(), moneyTransfer.getAmount());
+        customerManagementService.subtractFromBalance(moneyTransfer.getFromBankAccount().getId(), moneyTransfer.getAmount());
 
         return moneyTransfer;
     }

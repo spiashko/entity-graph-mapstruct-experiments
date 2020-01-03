@@ -1,4 +1,4 @@
-package com.siarhei.jpatransactionaldemo.customer;
+package com.siarhei.jpatransactionaldemo.bankaccount;
 
 import com.siarhei.jpatransactionaldemo.crudbase.entity.BaseJournalEntity;
 import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransfer;
@@ -20,21 +20,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "customer")
-public class Customer extends BaseJournalEntity {
-
-    @NotBlank
-    @Column(name = "name")
-    private String name;
+@Table(name = "bank_account")
+public class BankAccount extends BaseJournalEntity {
 
     @NotNull
     @Column(name = "balance")
     private Long balance;
 
-    @OneToMany(mappedBy = "fromCustomer")
+    @OneToMany(mappedBy = "fromBankAccount")
     private List<MoneyTransfer> outMoneyTransfers;
 
-    @OneToMany(mappedBy = "toCustomer")
+    @OneToMany(mappedBy = "toBankAccount")
     private List<MoneyTransfer> inMoneyTransfers;
 
 }

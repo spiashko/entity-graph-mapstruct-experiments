@@ -1,7 +1,7 @@
 package com.siarhei.jpatransactionaldemo.moneytransfer;
 
 import com.siarhei.jpatransactionaldemo.crudbase.entity.BaseJournalEntity;
-import com.siarhei.jpatransactionaldemo.customer.Customer;
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,11 +25,11 @@ public class MoneyTransfer extends BaseJournalEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_from_customer")
-    private Customer fromCustomer;
+    private BankAccount fromBankAccount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_to_customer")
-    private Customer toCustomer;
+    private BankAccount toBankAccount;
 
     @NotNull
     @Column(name = "amount")

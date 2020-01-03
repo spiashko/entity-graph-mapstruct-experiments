@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 public class CreateMoneyTransferDto {
 
-    private Long fromCustomerId;
-    private Long toCustomerId;
+    private Long fromBankAccountId;
+    private Long toBankAccountId;
     private Long amount;
 
 }
