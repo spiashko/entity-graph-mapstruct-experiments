@@ -2,7 +2,6 @@ package com.siarhei.jpatransactionaldemo.moneytransfer.impl;
 
 
 import com.siarhei.jpatransactionaldemo.crudbase.spec.BaseJournalSpec;
-import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransfer;
 import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransferFilter;
 import org.springframework.stereotype.Component;
 

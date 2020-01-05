@@ -2,7 +2,6 @@ package com.siarhei.jpatransactionaldemo.operation.impl;
 
 
 import com.siarhei.jpatransactionaldemo.crudbase.spec.BaseJournalSpec;
-import com.siarhei.jpatransactionaldemo.operation.Operation;
 import com.siarhei.jpatransactionaldemo.operation.OperationFilter;
 import org.springframework.stereotype.Component;
 

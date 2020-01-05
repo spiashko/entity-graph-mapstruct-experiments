@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class CreateBankAccountDto {
 
-    private String name;
     private Long balance;
 
 }

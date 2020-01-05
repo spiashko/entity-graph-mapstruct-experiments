@@ -1,30 +1,27 @@
 package com.siarhei.jpatransactionaldemo.bankaccount.impl;
 
-import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
 import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountManagementService;
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountModel;
+import com.siarhei.jpatransactionaldemo.bankaccount.CreateBankAccountModel;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @RequiredArgsConstructor
 @Service
 public class BankAccountManagementServiceImpl implements BankAccountManagementService {
 
-    private final BankAccountRepository customerRepository;
+    private final BankAccountRepository repository;
+    private final BankAccountMapper mapper;
 
     @Override
-    public BankAccount createBankAccount(BankAccount customer) {
-
-        if (customer.getId() != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "id must be null");
-        }
-
-        return customerRepository.save(customer);
+    public BankAccountModel createBankAccount(CreateBankAccountModel createModel) {
+        BankAccount bankAccount = mapper.map(createModel);
+        repository.save(bankAccount);
+        return mapper.map(bankAccount);
     }
 
     @Override
     public void deleteBankAccountById(Long id) {
-        customerRepository.deleteById(id);
+        repository.deleteById(id);
     }
 }

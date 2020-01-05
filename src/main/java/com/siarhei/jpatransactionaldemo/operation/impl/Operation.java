@@ -1,8 +1,7 @@
-package com.siarhei.jpatransactionaldemo.operation;
+package com.siarhei.jpatransactionaldemo.operation.impl;
 
-import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
+import com.siarhei.jpatransactionaldemo.bankaccount.impl.BankAccount;
 import com.siarhei.jpatransactionaldemo.crudbase.entity.BaseJournalEntity;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,11 +22,10 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "operation")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "operation_type")
+@DiscriminatorColumn(name = "operation_source")
 public class Operation extends BaseJournalEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,15 +33,32 @@ public class Operation extends BaseJournalEntity {
     private BankAccount bankAccount;
 
     @NotNull
+    @Column(name = "fk_bank_account")
+    private Long bankAccountId;
+
+    @NotNull
     @Column(name = "amount")
     private Long amount;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "operation_type", insertable = false, updatable = false)
-    private OperationType operationType;
+    @Column(name = "operation_source", insertable = false, updatable = false)
+    private OperationSource operationSource;
 
-    public enum OperationType {
-        IN,
-        OUT
+    @Column(name = "fk_operation_source")
+    private Long fkOperationSource;
+
+    public Operation(BankAccount bankAccount, @NotNull Long amount) {
+        this.bankAccount = bankAccount;
+        this.amount = amount;
+    }
+
+    public enum OperationSource {
+        //in
+        RECEIVE_MONEY_TRANSFER,
+        CASH_REFILL,
+
+        //out
+        SEND_MONEY_TRANSFER,
+        CASH_WITHDRAWAL,
     }
 }

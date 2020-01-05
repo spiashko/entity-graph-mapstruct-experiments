@@ -1,7 +1,7 @@
-package com.siarhei.jpatransactionaldemo.bankaccount;
+package com.siarhei.jpatransactionaldemo.bankaccount.impl;
 
 import com.siarhei.jpatransactionaldemo.crudbase.entity.BaseJournalEntity;
-import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransfer;
+import com.siarhei.jpatransactionaldemo.moneytransfer.impl.MoneyTransfer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 

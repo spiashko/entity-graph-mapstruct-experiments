@@ -2,7 +2,6 @@ package com.siarhei.jpatransactionaldemo.bankaccount.impl;
 
 
 import com.siarhei.jpatransactionaldemo.crudbase.spec.BaseJournalSpec;
-import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
 import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountFilter;
 import org.springframework.stereotype.Component;
 
