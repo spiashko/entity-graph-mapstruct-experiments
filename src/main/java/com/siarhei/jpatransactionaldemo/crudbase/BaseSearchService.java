@@ -1,7 +1,8 @@
 package com.siarhei.jpatransactionaldemo.crudbase;
 
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
+import com.siarhei.jpatransactionaldemo.crudbase.entity.BaseJournalEntity;
 import com.siarhei.jpatransactionaldemo.crudbase.filter.BaseJournalFilter;
-import com.siarhei.jpatransactionaldemo.crudbase.model.BaseJournalModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -9,23 +10,39 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BaseSearchService<
-        T extends BaseJournalModel,
+        E extends BaseJournalEntity,
         F extends BaseJournalFilter> {
 
-    Page<T> findAllPage(Pageable pageRequest);
+    Page<E> findAllPage(Pageable pageRequest);
 
-    Page<T> findAllPage(F filter, Pageable pageRequest);
+    Page<E> findAllPage(Pageable pageRequest, EntityGraph entityGraph);
 
-    List<T> findAll();
+    Page<E> findAllPage(F filter, Pageable pageRequest);
 
-    List<T> findAll(F filter);
+    Page<E> findAllPage(F filter, Pageable pageRequest, EntityGraph entityGraph);
 
-    Optional<T> findOne(Long id);
+    List<E> findAll();
 
-    Optional<T> findOne(F filter);
+    Iterable<E> findAll(EntityGraph entityGraph);
 
-    T findOneOrThrow(Long id);
+    List<E> findAll(F filter);
 
-    T findOneOrThrow(F filter);
+    Iterable<E> findAll(F filter, EntityGraph entityGraph);
+
+    Optional<E> findOne(Long id);
+
+    Optional<E> findOne(Long id, EntityGraph entityGraph);
+
+    Optional<E> findOne(F filter);
+
+    Optional<E> findOne(F filter, EntityGraph entityGraph);
+
+    E findOneOrThrow(Long id);
+
+    E findOneOrThrow(Long id, EntityGraph entityGraph);
+
+    E findOneOrThrow(F filter);
+
+    E findOneOrThrow(F filter, EntityGraph entityGraph);
 
 }

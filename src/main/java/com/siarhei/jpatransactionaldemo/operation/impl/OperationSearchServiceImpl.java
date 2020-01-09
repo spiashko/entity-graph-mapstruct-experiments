@@ -1,17 +1,17 @@
 package com.siarhei.jpatransactionaldemo.operation.impl;
 
 import com.siarhei.jpatransactionaldemo.crudbase.BaseSearchServiceImpl;
+import com.siarhei.jpatransactionaldemo.operation.Operation;
 import com.siarhei.jpatransactionaldemo.operation.OperationFilter;
-import com.siarhei.jpatransactionaldemo.operation.OperationModel;
 import com.siarhei.jpatransactionaldemo.operation.OperationSearchService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OperationSearchServiceImpl
-        extends BaseSearchServiceImpl<Operation, OperationFilter, OperationModel, OperationSpec, OperationRepository, OperationMapper>
+        extends BaseSearchServiceImpl<Operation, OperationFilter, OperationSpec, OperationRepository>
         implements OperationSearchService {
 
-    protected OperationSearchServiceImpl(OperationRepository repository, OperationSpec spec, OperationMapper mapper) {
-        super(repository, spec, mapper);
+    public OperationSearchServiceImpl(OperationRepository repository, OperationSpec spec) {
+        super(repository, spec);
     }
 }

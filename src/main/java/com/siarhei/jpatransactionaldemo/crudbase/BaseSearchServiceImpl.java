@@ -1,10 +1,9 @@
 package com.siarhei.jpatransactionaldemo.crudbase;
 
+import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraph;
 import com.siarhei.jpatransactionaldemo.crudbase.entity.BaseJournalEntity;
 import com.siarhei.jpatransactionaldemo.crudbase.exception.ResultsNotFoundException;
 import com.siarhei.jpatransactionaldemo.crudbase.filter.BaseJournalFilter;
-import com.siarhei.jpatransactionaldemo.crudbase.mapper.BaseFromEntityToModelMapper;
-import com.siarhei.jpatransactionaldemo.crudbase.model.BaseJournalModel;
 import com.siarhei.jpatransactionaldemo.crudbase.repository.BaseJournalRepository;
 import com.siarhei.jpatransactionaldemo.crudbase.spec.BaseJournalSpec;
 import org.springframework.data.domain.Page;
@@ -14,63 +13,96 @@ import org.springframework.data.jpa.domain.Specification;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public abstract class BaseSearchServiceImpl<
         E extends BaseJournalEntity,
         F extends BaseJournalFilter,
-        T extends BaseJournalModel,
         S extends BaseJournalSpec<E, F>,
-        R extends BaseJournalRepository<E>,
-        M extends BaseFromEntityToModelMapper<E, T>>
-        implements BaseSearchService<T, F>, BaseSearchEntityService<E, F> {
+        R extends BaseJournalRepository<E>>
+        implements BaseSearchService<E, F> {
 
     private final R repository;
     private final S spec;
-    private final M mapper;
 
     private Class<E> persistentClass;
 
-    protected BaseSearchServiceImpl(R repository, S spec, M mapper) {
+    protected BaseSearchServiceImpl(R repository, S spec) {
         this.repository = repository;
         this.spec = spec;
-        this.mapper = mapper;
 
         this.persistentClass = (Class<E>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
-    ////////////BaseSearchInternalService/////////
-
-    public Page<E> findAllEntitiesPage(Pageable pageRequest) {
+    @Override
+    public Page<E> findAllPage(Pageable pageRequest) {
         return repository.findAll(pageRequest);
     }
 
-    public Page<E> findAllEntitiesPage(F filter, Pageable pageRequest) {
+    @Override
+    public Page<E> findAllPage(Pageable pageRequest, EntityGraph entityGraph) {
+        return repository.findAll(pageRequest, entityGraph);
+    }
+
+    @Override
+    public Page<E> findAllPage(F filter, Pageable pageRequest) {
         Specification<E> specification = spec.build(filter);
         return repository.findAll(specification, pageRequest);
     }
 
-    public List<E> findAllEntities() {
+    @Override
+    public Page<E> findAllPage(F filter, Pageable pageRequest, EntityGraph entityGraph) {
+        Specification<E> specification = spec.build(filter);
+        return repository.findAll(specification, pageRequest, entityGraph);
+    }
+
+    @Override
+    public List<E> findAll() {
         return repository.findAll();
     }
 
-    public List<E> findAllEntities(F filter) {
+    @Override
+    public Iterable<E> findAll(EntityGraph entityGraph) {
+        return repository.findAll(entityGraph);
+    }
+
+    @Override
+    public List<E> findAll(F filter) {
         Specification<E> specification = spec.build(filter);
         return repository.findAll(specification);
     }
 
-    public Optional<E> findOneEntity(Long id) {
+    @Override
+    public Iterable<E> findAll(F filter, EntityGraph entityGraph) {
+        Specification<E> specification = spec.build(filter);
+        return repository.findAll(specification, entityGraph);
+    }
+
+    @Override
+    public Optional<E> findOne(Long id) {
         return repository.findById(id);
     }
 
-    public Optional<E> findOneEntity(F filter) {
+    @Override
+    public Optional<E> findOne(Long id, EntityGraph entityGraph) {
+        return repository.findById(id, entityGraph);
+    }
+
+    @Override
+    public Optional<E> findOne(F filter) {
         Specification<E> specification = spec.build(filter);
         return repository.findOne(specification);
     }
 
-    public E findOneEntityOrThrow(Long id) {
-        Optional<E> result = findOneEntity(id);
+    @Override
+    public Optional<E> findOne(F filter, EntityGraph entityGraph) {
+        Specification<E> specification = spec.build(filter);
+        return repository.findOne(specification, entityGraph);
+    }
+
+    @Override
+    public E findOneOrThrow(Long id) {
+        Optional<E> result = findOne(id);
         if (!result.isPresent()) {
             throw new ResultsNotFoundException(
                     String.format("No %s entity with id %s exists!", persistentClass.getSimpleName(), id));
@@ -78,8 +110,19 @@ public abstract class BaseSearchServiceImpl<
         return result.get();
     }
 
-    public E findOneEntityOrThrow(F filter) {
-        Optional<E> result = findOneEntity(filter);
+    @Override
+    public E findOneOrThrow(Long id, EntityGraph entityGraph) {
+        Optional<E> result = findOne(id, entityGraph);
+        if (!result.isPresent()) {
+            throw new ResultsNotFoundException(
+                    String.format("No %s entity with id %s exists!", persistentClass.getSimpleName(), id));
+        }
+        return result.get();
+    }
+
+    @Override
+    public E findOneOrThrow(F filter) {
+        Optional<E> result = findOne(filter);
         if (!result.isPresent()) {
             throw new ResultsNotFoundException(
                     String.format("resource %s not found by filter=%s", persistentClass.getSimpleName(), filter));
@@ -87,57 +130,15 @@ public abstract class BaseSearchServiceImpl<
         return result.get();
     }
 
-    ////////////BaseSearchService/////////////
-
-    public Page<T> findAllPage(Pageable pageRequest) {
-        return convertPage(findAllEntitiesPage(pageRequest));
+    @Override
+    public E findOneOrThrow(F filter, EntityGraph entityGraph) {
+        Optional<E> result = findOne(filter, entityGraph);
+        if (!result.isPresent()) {
+            throw new ResultsNotFoundException(
+                    String.format("resource %s not found by filter=%s", persistentClass.getSimpleName(), filter));
+        }
+        return result.get();
     }
-
-    public Page<T> findAllPage(F filter, Pageable pageRequest) {
-        return convertPage(findAllEntitiesPage(filter, pageRequest));
-    }
-
-    public List<T> findAll() {
-        return convertList(findAllEntities());
-    }
-
-    public List<T> findAll(F filter) {
-        return convertList(findAllEntities(filter));
-    }
-
-    public Optional<T> findOne(Long id) {
-        return convertOptionalEntity(findOneEntity(id));
-    }
-
-    public Optional<T> findOne(F filter) {
-        return convertOptionalEntity(findOneEntity(filter));
-    }
-
-    public T findOneOrThrow(Long id) {
-        return convertEntity(findOneEntityOrThrow(id));
-    }
-
-    public T findOneOrThrow(F filter) {
-        return convertEntity(findOneEntityOrThrow(filter));
-    }
-
-    private T convertEntity(E entity) {
-        return mapper.map(entity);
-    }
-
-    private Optional<T> convertOptionalEntity(Optional<E> entity) {
-        return entity.map(this::convertEntity);
-    }
-
-    private List<T> convertList(List<E> entities) {
-        return entities.stream().map(this::convertEntity).collect(Collectors.toList());
-    }
-
-    private Page<T> convertPage(Page<E> page) {
-        return page.map(this::convertEntity);
-    }
-
-    ////Getters/////
 
     protected R getRepository() {
         return repository;
@@ -145,9 +146,5 @@ public abstract class BaseSearchServiceImpl<
 
     protected S getSpec() {
         return spec;
-    }
-
-    protected M getMapper() {
-        return mapper;
     }
 }

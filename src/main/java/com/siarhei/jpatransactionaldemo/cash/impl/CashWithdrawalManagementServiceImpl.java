@@ -1,18 +1,18 @@
 package com.siarhei.jpatransactionaldemo.cash.impl;
 
-import com.siarhei.jpatransactionaldemo.bankaccount.impl.BankAccountSearchEntityService;
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountSearchService;
 import com.siarhei.jpatransactionaldemo.cash.CashActionManagementService;
-import com.siarhei.jpatransactionaldemo.cash.CashWithdrawalModel;
-import com.siarhei.jpatransactionaldemo.cash.CreateCashWithdrawalModel;
-import com.siarhei.jpatransactionaldemo.operation.impl.CashWithdrawalOperation;
+import com.siarhei.jpatransactionaldemo.cash.CashWithdrawal;
+import com.siarhei.jpatransactionaldemo.cash.CashWithdrawalCreationModel;
+import com.siarhei.jpatransactionaldemo.operation.CashWithdrawalOperation;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CashWithdrawalManagementServiceImpl
-        extends AbstractCashActionManagementService<CashWithdrawal, CashWithdrawalOperation, CashWithdrawalRepository, CashWithdrawalModel, CreateCashWithdrawalModel, CashWithdrawalMapper>
-        implements CashActionManagementService<CashWithdrawalModel, CreateCashWithdrawalModel> {
+        extends AbstractCashActionManagementService<CashWithdrawal, CashWithdrawalOperation, CashWithdrawalRepository, CashWithdrawalCreationModel, CashWithdrawalMapper>
+        implements CashActionManagementService<CashWithdrawal, CashWithdrawalCreationModel> {
 
-    public CashWithdrawalManagementServiceImpl(CashWithdrawalRepository repository, CashWithdrawalMapper mapper, BankAccountSearchEntityService bankAccountSearchService) {
+    public CashWithdrawalManagementServiceImpl(CashWithdrawalRepository repository, CashWithdrawalMapper mapper, BankAccountSearchService bankAccountSearchService) {
         super(repository, mapper, bankAccountSearchService);
     }
 

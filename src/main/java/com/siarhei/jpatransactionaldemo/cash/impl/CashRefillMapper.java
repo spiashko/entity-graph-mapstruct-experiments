@@ -1,15 +1,11 @@
 package com.siarhei.jpatransactionaldemo.cash.impl;
 
-import com.siarhei.jpatransactionaldemo.cash.CashRefillModel;
-import com.siarhei.jpatransactionaldemo.cash.CreateCashRefillModel;
-import com.siarhei.jpatransactionaldemo.crudbase.mapper.BaseEntityModelMapper;
+import com.siarhei.jpatransactionaldemo.cash.CashRefill;
+import com.siarhei.jpatransactionaldemo.cash.CashRefillCreationModel;
+import com.siarhei.jpatransactionaldemo.crudbase.mapper.BaseFromModelToEntityMapper;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-interface CashRefillMapper extends BaseEntityModelMapper<CashRefill, CashRefillModel, CreateCashRefillModel> {
-
-    CashRefill map(CreateCashRefillModel model);
-
-    CashRefillModel map(CashRefill entity);
+interface CashRefillMapper extends BaseFromModelToEntityMapper<CashRefill, CashRefillCreationModel> {
 
 }

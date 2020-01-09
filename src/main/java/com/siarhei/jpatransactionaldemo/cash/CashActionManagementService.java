@@ -1,7 +1,7 @@
 package com.siarhei.jpatransactionaldemo.cash;
 
-public interface CashActionManagementService<R extends CashActionModel, T extends CreateCashActionModel> {
+public interface CashActionManagementService<E extends CashAction, T extends CashActionCreationModel> {
 
-    R createCashAction(T createModel);
+    E createCashAction(T creationModel);
 
 }

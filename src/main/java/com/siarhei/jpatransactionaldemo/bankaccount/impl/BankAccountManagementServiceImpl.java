@@ -1,8 +1,8 @@
 package com.siarhei.jpatransactionaldemo.bankaccount.impl;
 
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountCreationModel;
 import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountManagementService;
-import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountModel;
-import com.siarhei.jpatransactionaldemo.bankaccount.CreateBankAccountModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +14,10 @@ public class BankAccountManagementServiceImpl implements BankAccountManagementSe
     private final BankAccountMapper mapper;
 
     @Override
-    public BankAccountModel createBankAccount(CreateBankAccountModel createModel) {
-        BankAccount bankAccount = mapper.map(createModel);
+    public BankAccount createBankAccount(BankAccountCreationModel creationModel) {
+        BankAccount bankAccount = mapper.map(creationModel);
         repository.save(bankAccount);
-        return mapper.map(bankAccount);
+        return bankAccount;
     }
 
     @Override

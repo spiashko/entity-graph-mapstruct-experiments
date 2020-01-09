@@ -1,19 +1,18 @@
 package com.siarhei.jpatransactionaldemo.cash.impl;
 
-import com.siarhei.jpatransactionaldemo.bankaccount.impl.BankAccountSearchEntityService;
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountSearchService;
 import com.siarhei.jpatransactionaldemo.cash.CashActionManagementService;
-import com.siarhei.jpatransactionaldemo.cash.CashRefillModel;
-import com.siarhei.jpatransactionaldemo.cash.CreateCashRefillModel;
-import com.siarhei.jpatransactionaldemo.operation.impl.CashRefillOperation;
+import com.siarhei.jpatransactionaldemo.cash.CashRefill;
+import com.siarhei.jpatransactionaldemo.cash.CashRefillCreationModel;
+import com.siarhei.jpatransactionaldemo.operation.CashRefillOperation;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CashRefillManagementServiceImpl
-        extends AbstractCashActionManagementService<CashRefill, CashRefillOperation, CashRefillRepository, CashRefillModel, CreateCashRefillModel, CashRefillMapper>
-        implements CashActionManagementService<CashRefillModel, CreateCashRefillModel> {
+        extends AbstractCashActionManagementService<CashRefill, CashRefillOperation, CashRefillRepository, CashRefillCreationModel, CashRefillMapper>
+        implements CashActionManagementService<CashRefill, CashRefillCreationModel> {
 
-
-    public CashRefillManagementServiceImpl(CashRefillRepository repository, CashRefillMapper mapper, BankAccountSearchEntityService bankAccountSearchService) {
+    public CashRefillManagementServiceImpl(CashRefillRepository repository, CashRefillMapper mapper, BankAccountSearchService bankAccountSearchService) {
         super(repository, mapper, bankAccountSearchService);
     }
 

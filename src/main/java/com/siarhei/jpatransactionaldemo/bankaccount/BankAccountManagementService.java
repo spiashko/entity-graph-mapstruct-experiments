@@ -2,7 +2,7 @@ package com.siarhei.jpatransactionaldemo.bankaccount;
 
 public interface BankAccountManagementService {
 
-    BankAccountModel createBankAccount(CreateBankAccountModel createModel);
+    BankAccount createBankAccount(BankAccountCreationModel createModel);
 
     void deleteBankAccountById(Long id);
 

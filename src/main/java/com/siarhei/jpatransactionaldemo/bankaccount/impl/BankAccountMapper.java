@@ -1,14 +1,12 @@
 package com.siarhei.jpatransactionaldemo.bankaccount.impl;
 
-import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountModel;
-import com.siarhei.jpatransactionaldemo.bankaccount.CreateBankAccountModel;
-import com.siarhei.jpatransactionaldemo.crudbase.mapper.BaseEntityModelMapper;
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountCreationModel;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-interface BankAccountMapper extends BaseEntityModelMapper<BankAccount, BankAccountModel, CreateBankAccountModel> {
+interface BankAccountMapper {
 
-    BankAccount map(CreateBankAccountModel model);
-    BankAccountModel map(BankAccount bankAccount);
+    BankAccount map(BankAccountCreationModel creationModel);
 
 }

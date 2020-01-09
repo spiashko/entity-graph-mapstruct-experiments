@@ -1,16 +1,16 @@
 package com.siarhei.jpatransactionaldemo.web.mappers;
 
-import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountModel;
-import com.siarhei.jpatransactionaldemo.bankaccount.CreateBankAccountModel;
-import com.siarhei.jpatransactionaldemo.web.dto.bankaccount.CreateBankAccountDto;
-import com.siarhei.jpatransactionaldemo.web.dto.bankaccount.RetrieveBankAccountDto;
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
+import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountCreationModel;
+import com.siarhei.jpatransactionaldemo.web.dto.bankaccount.BankAccountCreationDto;
+import com.siarhei.jpatransactionaldemo.web.dto.bankaccount.BankAccountViewADto;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface BankAccountWebMapper {
 
-    RetrieveBankAccountDto map(BankAccountModel model);
+    BankAccountViewADto map(BankAccount entity);
 
-    CreateBankAccountModel map(CreateBankAccountDto dto);
+    BankAccountCreationModel map(BankAccountCreationDto dto);
 
 }

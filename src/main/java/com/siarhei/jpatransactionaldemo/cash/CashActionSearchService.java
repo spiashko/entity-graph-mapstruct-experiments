@@ -2,6 +2,6 @@ package com.siarhei.jpatransactionaldemo.cash;
 
 import com.siarhei.jpatransactionaldemo.crudbase.BaseSearchService;
 
-public interface CashActionSearchService extends BaseSearchService<CashActionModel, CashActionFilter> {
+public interface CashActionSearchService extends BaseSearchService<CashAction, CashActionFilter> {
 
 }

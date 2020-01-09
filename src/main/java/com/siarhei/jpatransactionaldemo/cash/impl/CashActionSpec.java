@@ -1,6 +1,7 @@
 package com.siarhei.jpatransactionaldemo.cash.impl;
 
 
+import com.siarhei.jpatransactionaldemo.cash.CashAction;
 import com.siarhei.jpatransactionaldemo.cash.CashActionFilter;
 import com.siarhei.jpatransactionaldemo.crudbase.spec.BaseJournalSpec;
 import org.springframework.stereotype.Component;
