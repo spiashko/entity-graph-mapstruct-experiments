@@ -8,7 +8,6 @@ import com.siarhei.jpatransactionaldemo.moneytransfer.summary.MoneyTransferSumma
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -70,13 +69,11 @@ public class Operation extends BaseJournalEntity {
     private CashWithdrawal cashWithdrawal;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_money_transfer", insertable = false, updatable = false)
-    @Where(clause = "fk_money_transfer = id and operation_source = 'SEND_MONEY_TRANSFER'") // not working
+    @JoinColumn(name = "fk_send_money_transfer", insertable = false, updatable = false)
     private MoneyTransferSummary sendMoneyTransfer;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_money_transfer", insertable = false, updatable = false)
-    @Where(clause = "operation_source = 'RECEIVE_MONEY_TRANSFER'") // not working
+    @JoinColumn(name = "fk_receive_money_transfer", insertable = false, updatable = false)
     private MoneyTransferSummary receiveMoneyTransfer;
 
     public Operation(BankAccount bankAccount, @NotNull Long amount) {

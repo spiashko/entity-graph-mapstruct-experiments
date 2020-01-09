@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 public class ReceiveMoneyTransferOperation extends InOperation {
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "fk_money_transfer")
+    @JoinColumn(name = "fk_receive_money_transfer")
     private MoneyTransferFull moneyTransfer;
 
     @Builder

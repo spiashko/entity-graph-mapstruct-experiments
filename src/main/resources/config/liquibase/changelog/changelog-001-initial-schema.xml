@@ -75,7 +75,8 @@
             operation_source TEXT NOT NULL,
             amount NUMERIC NOT NULL,
 
-            fk_money_transfer INTEGER REFERENCES money_transfer (id),
+            fk_send_money_transfer INTEGER REFERENCES money_transfer (id),
+            fk_receive_money_transfer INTEGER REFERENCES money_transfer (id),
             fk_cash_withdrawal INTEGER REFERENCES cash_action (id),
             fk_cash_refill INTEGER REFERENCES cash_action (id)
             );
