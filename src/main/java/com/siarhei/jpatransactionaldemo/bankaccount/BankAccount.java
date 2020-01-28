@@ -10,6 +10,8 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -21,6 +23,10 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "bank_account")
+@NamedEntityGraph(
+        name = "BankAccount.operations",
+        attributeNodes = @NamedAttributeNode("operations")
+)
 public class BankAccount extends BaseJournalEntity {
 
     @NotNull
