@@ -1,9 +1,11 @@
 package com.siarhei.jpatransactionaldemo.web.rest;
 
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphs;
-import com.siarhei.jpatransactionaldemo.operation.Operation;
 import com.siarhei.jpatransactionaldemo.operation.OperationFilter;
-import com.siarhei.jpatransactionaldemo.operation.OperationSearchService;
+import com.siarhei.jpatransactionaldemo.operation.OperationSummary;
+import com.siarhei.jpatransactionaldemo.operation.OperationSummarySearchService;
+import com.siarhei.jpatransactionaldemo.operation.OperationViewC;
+import com.siarhei.jpatransactionaldemo.operation.OperationViewCSearchService;
 import com.siarhei.jpatransactionaldemo.web.dto.operation.OperationViewADto;
 import com.siarhei.jpatransactionaldemo.web.dto.operation.OperationViewBDto;
 import com.siarhei.jpatransactionaldemo.web.dto.operation.OperationViewCDto;
@@ -22,20 +24,21 @@ import java.util.stream.StreamSupport;
 @Controller
 public class OperationResource {
 
-    private final OperationSearchService searchService;
+    private final OperationSummarySearchService summarySearchService;
+    private final OperationViewCSearchService searchService;
     private final OperationWebMapper mapper;
 
     @GetMapping(value = "/operations")
     public ResponseEntity<List<OperationViewADto>> getAllViewA(OperationFilter filter) {
-        List<Operation> entities = searchService.findAll(filter);
-        return ResponseEntity.ok(entities.stream()
+        Iterable<OperationSummary> entities = summarySearchService.findAll(filter);
+        return ResponseEntity.ok(StreamSupport.stream(entities.spliterator(), false)
                 .map(mapper::mapToViewA)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/operations-viewb")
     public ResponseEntity<List<OperationViewBDto>> getAllViewB(OperationFilter filter) {
-        Iterable<Operation> entities = searchService.findAll(filter, EntityGraphs.named("Operation.bankAccount"));
+        Iterable<OperationSummary> entities = summarySearchService.findAll(filter, EntityGraphs.named("Operation.viewb"));
         return ResponseEntity.ok(StreamSupport.stream(entities.spliterator(), false)
                 .map(mapper::mapToViewB)
                 .collect(Collectors.toList()));
@@ -43,7 +46,7 @@ public class OperationResource {
 
     @GetMapping(value = "/operations-viewc")
     public ResponseEntity<List<OperationViewCDto>> getAllViewC(OperationFilter filter) {
-        Iterable<Operation> entities = searchService.findAll(filter, EntityGraphs.named("Operation.all"));
+        Iterable<OperationViewC> entities = searchService.findAll(filter, EntityGraphs.named("Operation.viewc"));
         return ResponseEntity.ok(StreamSupport.stream(entities.spliterator(), false)
                 .map(mapper::mapToViewC)
                 .collect(Collectors.toList()));
@@ -51,21 +54,21 @@ public class OperationResource {
 
     @GetMapping("/operations/{id}")
     public ResponseEntity<OperationViewADto> getOneViewA(@PathVariable Long id) {
-        Operation entity = searchService.findOneOrThrow(id);
+        OperationSummary entity = summarySearchService.findOneOrThrow(id);
         OperationViewADto result = mapper.mapToViewA(entity);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/operations-viewb/{id}")
     public ResponseEntity<OperationViewBDto> getOneViewB(@PathVariable Long id) {
-        Operation entity = searchService.findOneOrThrow(id, EntityGraphs.named("Operation.bankAccount"));
+        OperationSummary entity = summarySearchService.findOneOrThrow(id, EntityGraphs.named("Operation.viewb"));
         OperationViewBDto result = mapper.mapToViewB(entity);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/operations-viewc/{id}")
     public ResponseEntity<OperationViewCDto> getOneViewC(@PathVariable Long id) {
-        Operation entity = searchService.findOneOrThrow(id, EntityGraphs.named("Operation.all"));
+        OperationViewC entity = searchService.findOneOrThrow(id, EntityGraphs.named("Operation.viewc"));
         OperationViewCDto result = mapper.mapToViewC(entity);
         return ResponseEntity.ok(result);
     }

@@ -1,6 +1,7 @@
 package com.siarhei.jpatransactionaldemo.web.mappers;
 
-import com.siarhei.jpatransactionaldemo.operation.Operation;
+import com.siarhei.jpatransactionaldemo.operation.OperationSummary;
+import com.siarhei.jpatransactionaldemo.operation.OperationViewC;
 import com.siarhei.jpatransactionaldemo.web.dto.operation.OperationViewADto;
 import com.siarhei.jpatransactionaldemo.web.dto.operation.OperationViewBDto;
 import com.siarhei.jpatransactionaldemo.web.dto.operation.OperationViewCDto;
@@ -11,9 +12,9 @@ import org.mapstruct.Mapping;
 public interface OperationWebMapper {
 
     @Mapping(target = "bankAccountId", source = "bankAccount.id")
-    OperationViewADto mapToViewA(Operation entity);
+    OperationViewADto mapToViewA(OperationSummary entity);
 
-    OperationViewBDto mapToViewB(Operation entity);
+    OperationViewBDto mapToViewB(OperationSummary entity);
 
-    OperationViewCDto mapToViewC(Operation entity);
+    OperationViewCDto mapToViewC(OperationViewC entity);
 }

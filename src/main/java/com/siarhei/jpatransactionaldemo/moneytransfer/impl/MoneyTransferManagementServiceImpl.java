@@ -1,11 +1,11 @@
-package com.siarhei.jpatransactionaldemo.moneytransfer.management.impl;
+package com.siarhei.jpatransactionaldemo.moneytransfer.impl;
 
 import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
 import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountSearchService;
-import com.siarhei.jpatransactionaldemo.moneytransfer.full.MoneyTransferFull;
-import com.siarhei.jpatransactionaldemo.moneytransfer.full.impl.MoneyTransferFullRepository;
-import com.siarhei.jpatransactionaldemo.moneytransfer.management.MoneyTransferCreationModel;
-import com.siarhei.jpatransactionaldemo.moneytransfer.management.MoneyTransferManagementService;
+import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransfer;
+import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransferCreationModel;
+import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransferManagementService;
+import com.siarhei.jpatransactionaldemo.operation.OperationManagementService;
 import com.siarhei.jpatransactionaldemo.operation.ReceiveMoneyTransferOperation;
 import com.siarhei.jpatransactionaldemo.operation.SendMoneyTransferOperation;
 import lombok.RequiredArgsConstructor;
@@ -15,36 +15,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class MoneyTransferManagementServiceImpl implements MoneyTransferManagementService {
 
-    private final MoneyTransferFullRepository repository;
+    private final MoneyTransferRepository repository;
     private final MoneyTransferMapper mapper;
     private final BankAccountSearchService bankAccountSearchService;
+    private final OperationManagementService operationManagementService;
 
     @Override
-    public MoneyTransferFull createMoneyTransfer(MoneyTransferCreationModel createModel) {
+    public MoneyTransfer createMoneyTransfer(MoneyTransferCreationModel createModel) {
 
-        MoneyTransferFull moneyTransferFull = mapper.map(createModel);
+        MoneyTransfer moneyTransfer = mapper.map(createModel);
 
         SendMoneyTransferOperation sendOperation =
                 SendMoneyTransferOperation.builder()
                         .amount(createModel.getAmount())
-                        .moneyTransfer(moneyTransferFull)
                         .bankAccount(getBankAccount(createModel.getFromBankAccountId()))
                         .build();
-
-        moneyTransferFull.setSendOperation(sendOperation);
+        operationManagementService.create(sendOperation);
 
         ReceiveMoneyTransferOperation receiveOperation =
                 ReceiveMoneyTransferOperation.builder()
                         .amount(createModel.getAmount())
-                        .moneyTransfer(moneyTransferFull)
                         .bankAccount(getBankAccount(createModel.getToBankAccountId()))
                         .build();
+        operationManagementService.create(receiveOperation);
 
-        moneyTransferFull.setReceiveOperation(receiveOperation);
+        moneyTransfer.setSendOperation(sendOperation);
+        moneyTransfer.setReceiveOperation(receiveOperation);
 
-        repository.save(moneyTransferFull);
+        repository.save(moneyTransfer);
 
-        return moneyTransferFull;
+        return moneyTransfer;
     }
 
     private BankAccount getBankAccount(Long bankAccountId) {

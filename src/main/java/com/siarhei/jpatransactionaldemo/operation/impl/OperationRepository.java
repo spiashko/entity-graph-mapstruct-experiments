@@ -4,4 +4,5 @@ import com.siarhei.jpatransactionaldemo.crudbase.repository.BaseJournalRepositor
 import com.siarhei.jpatransactionaldemo.operation.Operation;
 
 public interface OperationRepository extends BaseJournalRepository<Operation> {
+
 }

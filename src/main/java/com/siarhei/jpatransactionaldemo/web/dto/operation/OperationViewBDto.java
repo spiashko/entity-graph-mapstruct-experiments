@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 public class OperationViewBDto {
 
+    private Long id;
     private BankAccountDto bankAccount;
     private Long amount;
     private OperationSource operationSource;
