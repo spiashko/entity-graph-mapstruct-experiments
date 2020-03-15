@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Getter
@@ -18,7 +18,8 @@ import javax.persistence.OneToOne;
 @DiscriminatorValue("REFILL")
 public class CashRefill extends CashAction {
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cashRefill")
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "fk_refill_operation", updatable = false)
     private CashRefillOperation cashRefillOperation;
 
     public void setCashRefillOperation(CashRefillOperation cashRefillOperation) {

@@ -7,10 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
@@ -21,8 +21,7 @@ import javax.validation.constraints.NotNull;
 @DiscriminatorValue("CASH_WITHDRAWAL")
 public class CashWithdrawalOperation extends OutOperation {
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_cash_withdrawal")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cashWithdrawalOperation", optional = false)
     private CashWithdrawal cashWithdrawal;
 
     @Builder

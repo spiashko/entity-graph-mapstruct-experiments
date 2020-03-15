@@ -1,4 +1,4 @@
-package com.siarhei.jpatransactionaldemo.moneytransfer.management;
+package com.siarhei.jpatransactionaldemo.moneytransfer;
 
 import lombok.Getter;
 import lombok.Setter;

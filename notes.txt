@@ -1,7 +1,11 @@
-NOTES:
+COMMIT 7d34c4ca NOTES:
 - LazyGroup -> should not be used with Entity looks because id will not be fetched
 - @LazyToOne(LazyToOneOption.NO_PROXY) for bankAccount in Operation could not be applied as bankAccount will not be fetched even EntityGraph will be used
 - OperationViewCDto -> generates 2 sql quires if not use MoneyTransferSummary
 - fk_send_money_transfer and fk_receive_money_transfer in operation table should not be united into fk_money_transfer as it will produce:
   * money-transfers-viewb get by id produce 2 sql
   * operations-viewc find all and get by id sendMoneyTransfer and receiveMoneyTransfer is fulfilled at the same time
+
+COMMIT 20deb51c NOTES:
+- swap of pk brought to a lot of queries on OperationView requests
+- cash_action should contain 2 separate references to avoid 2 sql

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,16 +20,13 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Entity
 @Table(name = "cash_action")
+@DiscriminatorColumn(name = "action_type")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class CashAction extends BaseJournalEntity {
 
     @NotNull
     @Column(name = "cash_amount")
     private Long cashAmount;
-
-    @NotNull
-    @Column(name = "fee")
-    private Long fee;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "action_type", insertable = false, updatable = false)

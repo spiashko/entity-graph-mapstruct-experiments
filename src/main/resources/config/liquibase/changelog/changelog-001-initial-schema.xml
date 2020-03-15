@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="siarhei.piashko" id="changelog-001-001">
+    <changeSet author="siarhei.piashko" id="changelog-001-bank_account">
         <sql>
             create table bank_account (
             id SERIAL PRIMARY KEY,
@@ -22,45 +22,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet author="siarhei.piashko" id="changelog-001-002">
-        <sql>
-            create table money_transfer (
-            id SERIAL PRIMARY KEY,
-
-            created_at TIMESTAMP WITH TIME ZONE NOT NULL,
-            created_by INTEGER NOT NULL,
-            updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
-            updated_by INTEGER NOT NULL,
-
-            amount NUMERIC NOT NULL
-            );
-        </sql>
-        <rollback>
-            drop table money_transfer;
-        </rollback>
-    </changeSet>
-
-    <changeSet author="siarhei.piashko" id="changelog-001-003">
-        <sql>
-            create table cash_action (
-            id SERIAL PRIMARY KEY,
-
-            created_at TIMESTAMP WITH TIME ZONE NOT NULL,
-            created_by INTEGER NOT NULL,
-            updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
-            updated_by INTEGER NOT NULL,
-
-            action_type TEXT NOT NULL,
-            cash_amount NUMERIC NOT NULL,
-            fee NUMERIC NOT NULL
-            );
-        </sql>
-        <rollback>
-            drop table cash_action;
-        </rollback>
-    </changeSet>
-
-    <changeSet author="siarhei.piashko" id="changelog-001-004">
+    <changeSet author="siarhei.piashko" id="changelog-001-operation">
         <sql>
             create table operation (
             id SERIAL PRIMARY KEY,
@@ -73,16 +35,56 @@
             fk_bank_account INTEGER NOT NULL REFERENCES bank_account (id),
 
             operation_source TEXT NOT NULL,
-            amount NUMERIC NOT NULL,
-
-            fk_send_money_transfer INTEGER REFERENCES money_transfer (id),
-            fk_receive_money_transfer INTEGER REFERENCES money_transfer (id),
-            fk_cash_withdrawal INTEGER REFERENCES cash_action (id),
-            fk_cash_refill INTEGER REFERENCES cash_action (id)
+            amount NUMERIC NOT NULL
             );
         </sql>
         <rollback>
             drop table operation;
+        </rollback>
+    </changeSet>
+
+    <changeSet author="siarhei.piashko" id="changelog-001-money_transfer">
+        <sql>
+            create table money_transfer (
+            id SERIAL PRIMARY KEY,
+
+            created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+            created_by INTEGER NOT NULL,
+            updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
+            updated_by INTEGER NOT NULL,
+
+            fk_send_operation INTEGER REFERENCES operation (id),
+            fk_receive_operation INTEGER REFERENCES operation (id),
+
+            amount NUMERIC NOT NULL
+            );
+        </sql>
+        <rollback>
+            drop table money_transfer;
+        </rollback>
+    </changeSet>
+
+    <changeSet author="siarhei.piashko" id="changelog-001-cash_action">
+        <sql>
+            create table cash_action (
+            id SERIAL PRIMARY KEY,
+
+            created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+            created_by INTEGER NOT NULL,
+            updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
+            updated_by INTEGER NOT NULL,
+
+            action_type TEXT NOT NULL,
+            cash_amount NUMERIC NOT NULL,
+
+            fk_refill_operation INTEGER REFERENCES operation (id),
+
+            fk_withdrawal_operation INTEGER REFERENCES operation (id),
+            included_fee NUMERIC NOT NULL
+            );
+        </sql>
+        <rollback>
+            drop table cash_action;
         </rollback>
     </changeSet>
 
