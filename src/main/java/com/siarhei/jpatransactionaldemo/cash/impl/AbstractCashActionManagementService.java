@@ -1,7 +1,7 @@
 package com.siarhei.jpatransactionaldemo.cash.impl;
 
 import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
-import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountSearchService;
+import com.siarhei.jpatransactionaldemo.bankaccount.service.BankAccountSearchService;
 import com.siarhei.jpatransactionaldemo.cash.CashAction;
 import com.siarhei.jpatransactionaldemo.cash.CashActionCreationModel;
 import com.siarhei.jpatransactionaldemo.cash.CashActionManagementService;

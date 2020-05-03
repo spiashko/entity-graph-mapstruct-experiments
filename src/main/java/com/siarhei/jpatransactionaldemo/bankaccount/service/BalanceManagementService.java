@@ -1,4 +1,4 @@
-package com.siarhei.jpatransactionaldemo.bankaccount;
+package com.siarhei.jpatransactionaldemo.bankaccount.service;
 
 public interface BalanceManagementService {
 

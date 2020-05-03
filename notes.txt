@@ -6,6 +6,6 @@ COMMIT 7d34c4ca NOTES:
   * money-transfers-viewb get by id produce 2 sql
   * operations-viewc find all and get by id sendMoneyTransfer and receiveMoneyTransfer is fulfilled at the same time
 
-COMMIT 20deb51c NOTES:
-- swap of pk brought to a lot of queries on OperationView requests
+COMMIT bbdcb772 NOTES:
+- swap of pk brought to a lot of queries on OperationView requests in not create separate entities
 - cash_action should contain 2 separate references to avoid 2 sql

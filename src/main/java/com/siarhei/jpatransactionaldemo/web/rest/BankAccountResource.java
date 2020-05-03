@@ -2,10 +2,10 @@ package com.siarhei.jpatransactionaldemo.web.rest;
 
 import com.cosium.spring.data.jpa.entity.graph.domain.EntityGraphs;
 import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
-import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountCreationModel;
+import com.siarhei.jpatransactionaldemo.bankaccount.view.BankAccountCreateView;
 import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountFilter;
-import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountManagementService;
-import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountSearchService;
+import com.siarhei.jpatransactionaldemo.bankaccount.service.BankAccountManagementService;
+import com.siarhei.jpatransactionaldemo.bankaccount.service.BankAccountSearchService;
 import com.siarhei.jpatransactionaldemo.web.dto.bankaccount.BankAccountCreationDto;
 import com.siarhei.jpatransactionaldemo.web.dto.bankaccount.BankAccountViewADto;
 import com.siarhei.jpatransactionaldemo.web.dto.bankaccount.BankAccountViewBDto;
@@ -34,7 +34,7 @@ public class BankAccountResource {
 
     @PostMapping("/bank-accounts")
     public ResponseEntity<BankAccountViewADto> createBankAccount(@RequestBody BankAccountCreationDto customerDto) throws URISyntaxException {
-        BankAccountCreationModel customer = mapper.map(customerDto);
+        BankAccountCreateView customer = mapper.map(customerDto);
         BankAccount result = managementService.createBankAccount(customer);
         BankAccountViewADto resultDto = mapper.mapToViewA(result);
         return ResponseEntity.created(new URI("/bank-accounts/" + result.getId()))

@@ -1,7 +1,7 @@
 package com.siarhei.jpatransactionaldemo.moneytransfer.impl;
 
 import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
-import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountSearchService;
+import com.siarhei.jpatransactionaldemo.bankaccount.service.BankAccountSearchService;
 import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransfer;
 import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransferCreationModel;
 import com.siarhei.jpatransactionaldemo.moneytransfer.MoneyTransferManagementService;

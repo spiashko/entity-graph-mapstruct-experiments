@@ -1,7 +1,7 @@
 package com.siarhei.jpatransactionaldemo.web.mappers;
 
 import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
-import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountCreationModel;
+import com.siarhei.jpatransactionaldemo.bankaccount.view.BankAccountCreateView;
 import com.siarhei.jpatransactionaldemo.web.dto.bankaccount.BankAccountCreationDto;
 import com.siarhei.jpatransactionaldemo.web.dto.bankaccount.BankAccountViewADto;
 import com.siarhei.jpatransactionaldemo.web.dto.bankaccount.BankAccountViewBDto;
@@ -14,6 +14,6 @@ public interface BankAccountWebMapper {
 
     BankAccountViewBDto mapToViewB(BankAccount entity);
 
-    BankAccountCreationModel map(BankAccountCreationDto dto);
+    BankAccountCreateView map(BankAccountCreationDto dto);
 
 }

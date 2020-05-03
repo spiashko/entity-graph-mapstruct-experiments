@@ -1,8 +1,8 @@
 package com.siarhei.jpatransactionaldemo.bankaccount.impl;
 
-import com.siarhei.jpatransactionaldemo.bankaccount.BalanceManagementService;
+import com.siarhei.jpatransactionaldemo.bankaccount.service.BalanceManagementService;
 import com.siarhei.jpatransactionaldemo.bankaccount.BankAccount;
-import com.siarhei.jpatransactionaldemo.bankaccount.BankAccountSearchService;
+import com.siarhei.jpatransactionaldemo.bankaccount.service.BankAccountSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
