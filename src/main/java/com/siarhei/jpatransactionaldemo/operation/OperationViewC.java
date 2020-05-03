@@ -10,8 +10,6 @@ import org.hibernate.annotations.Immutable;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.NamedAttributeNode;
-import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,16 +18,6 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Entity
 @Table(name = "operation")
-@NamedEntityGraph(
-        name = "Operation.viewc",
-        attributeNodes = {
-                @NamedAttributeNode("bankAccount"),
-                @NamedAttributeNode("cashRefill"),
-                @NamedAttributeNode("cashWithdrawal"),
-                @NamedAttributeNode("receiveMoneyTransfer"),
-                @NamedAttributeNode("sendMoneyTransfer"),
-        }
-)
 @Immutable
 public class OperationViewC extends BaseOperationEntity {
 
