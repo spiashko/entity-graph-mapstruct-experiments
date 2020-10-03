@@ -24,6 +24,7 @@ public class BankAccountManagementServiceImpl implements BankAccountManagementSe
         return fromEntityMapper.mapToViewA(bankAccount);
     }
 
+    @Transactional
     @Override
     public void deleteBankAccountById(Long id) {
         repository.deleteById(id);
