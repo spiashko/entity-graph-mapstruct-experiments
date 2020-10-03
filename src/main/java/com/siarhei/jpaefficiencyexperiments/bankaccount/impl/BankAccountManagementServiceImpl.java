@@ -6,6 +6,7 @@ import com.siarhei.jpaefficiencyexperiments.bankaccount.BankAccountManagementSer
 import com.siarhei.jpaefficiencyexperiments.bankaccount.BankAccountViewAModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -15,6 +16,7 @@ public class BankAccountManagementServiceImpl implements BankAccountManagementSe
     private final BankAccountMapper mapper;
     private final BankAccountFromEntityMapper fromEntityMapper;
 
+    @Transactional
     @Override
     public BankAccountViewAModel createBankAccount(BankAccountCreationModel creationModel) {
         BankAccount bankAccount = mapper.map(creationModel);
