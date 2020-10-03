@@ -5,34 +5,41 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.4.RELEASE</version>
+        <version>2.3.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.siarhei</groupId>
-    <artifactId>jpa-transactional-demo</artifactId>
+    <artifactId>jpa-efficiency-experiments</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>jpa-transactional-demo</name>
-    <description>Demo project for JPA Transactional annotation</description>
+    <name>jpa-efficiency-experiments</name>
+    <description>Demo project for JPA efficiency experiments</description>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>14</java.version>
         <swagger2.version>2.9.2</swagger2.version>
-        <mapstruct.version>1.3.0.Final</mapstruct.version>
+        <mapstruct.version>1.4.0.Final</mapstruct.version>
+        <testcontainers.version>1.15.0-rc2</testcontainers.version>
     </properties>
 
     <dependencies>
 
         <dependency>
+            <groupId>net.jodah</groupId>
+            <artifactId>typetools</artifactId>
+            <version>0.6.2</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.cosium.spring.data</groupId>
             <artifactId>spring-data-jpa-entity-graph</artifactId>
-            <version>2.2.3</version>
+            <version>2.3.1</version>
         </dependency>
 
 
         <dependency>
             <groupId>com.github.gavlyukovskiy</groupId>
             <artifactId>datasource-proxy-spring-boot-starter</artifactId>
-            <version>1.5.8</version>
+            <version>1.6.2</version>
         </dependency>
 
 
@@ -55,7 +62,7 @@
 
         <dependency>
             <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-jdk8</artifactId>
+            <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
         </dependency>
 
@@ -99,18 +106,10 @@
             <scope>test</scope>
         </dependency>
 
-        <!--api-docs-->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger2.version}</version>
-        </dependency>
-
-        <!--swagger-ui-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger2.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.4.8</version>
         </dependency>
 
         <!--bean validation-->
@@ -120,10 +119,26 @@
         </dependency>
 
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

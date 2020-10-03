@@ -5,4 +5,4 @@ create_db_user_pass() {
     psql -Upostgres -dpostgres -c "CREATE DATABASE $1 OWNER=$2"
 }
 
-create_db_user_pass jpa_transactional_demo_db  jpa_transactional_demo_user  jpa_transactional_demo_pass
+create_db_user_pass demo_db  demo_user  demo_pass

@@ -1,9 +1,9 @@
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/jpa_transactional_demo_db
-    username: jpa_transactional_demo_user
-    password: jpa_transactional_demo_pass
+    url: jdbc:postgresql://localhost:5432/demo_db
+    username: demo_user
+    password: demo_pass
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -20,6 +20,8 @@ spring:
       hibernate.jdbc.time_zone: UTC
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
+  liquibase:
+    change-log: classpath:config/liquibase/master.xml
   mvc:
     servlet:
       load-on-startup: 1

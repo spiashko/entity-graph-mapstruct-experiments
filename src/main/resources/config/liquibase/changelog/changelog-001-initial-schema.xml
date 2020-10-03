@@ -5,87 +5,102 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <changeSet author="siarhei.piashko" id="changelog-001-bank_account">
+        <!--postgres sql highlight-->
         <sql>
-            create table bank_account (
-            id SERIAL PRIMARY KEY,
+            create table bank_account
+            (
+                id         SERIAL PRIMARY KEY,
 
-            created_at TIMESTAMP WITH TIME ZONE NOT NULL,
-            created_by INTEGER NOT NULL,
-            updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
-            updated_by INTEGER NOT NULL,
+                created_at TIMESTAMP NOT NULL,
+                created_by INTEGER   NOT NULL,
+                updated_at TIMESTAMP NOT NULL,
+                updated_by INTEGER   NOT NULL,
 
-            balance NUMERIC NOT NULL
+                balance    NUMERIC   NOT NULL
             );
         </sql>
-        <rollback>
-            drop table bank_account;
-        </rollback>
     </changeSet>
 
     <changeSet author="siarhei.piashko" id="changelog-001-operation">
+        <!--postgres sql highlight-->
         <sql>
-            create table operation (
-            id SERIAL PRIMARY KEY,
+            create table operation
+            (
+                id               SERIAL PRIMARY KEY,
 
-            created_at TIMESTAMP WITH TIME ZONE NOT NULL,
-            created_by INTEGER NOT NULL,
-            updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
-            updated_by INTEGER NOT NULL,
+                created_at       TIMESTAMP NOT NULL,
+                created_by       INTEGER   NOT NULL,
+                updated_at       TIMESTAMP NOT NULL,
+                updated_by       INTEGER   NOT NULL,
 
-            fk_bank_account INTEGER NOT NULL REFERENCES bank_account (id),
+                fk_bank_account  INTEGER   NOT NULL REFERENCES bank_account (id),
 
-            operation_source TEXT NOT NULL,
-            amount NUMERIC NOT NULL
+                operation_source TEXT      NOT NULL,
+                amount           NUMERIC   NOT NULL
             );
         </sql>
-        <rollback>
-            drop table operation;
-        </rollback>
     </changeSet>
 
+    <changeSet author="siarhei.piashko" id="changelog-001-is_withdrawal_cash_action-function">
+        <!--postgres sql highlight-->
+        <createProcedure>
+            create or replace function is_receive_money_transfer_operation(INTEGER) returns boolean as
+            $$
+            select exists(
+                           select 1
+                           from "operation"
+                           where id = $1
+                             and operation_source = 'RECEIVE_MONEY_TRANSFER'
+                       );
+            $$ language sql;
+        </createProcedure>
+    </changeSet>
+
+
     <changeSet author="siarhei.piashko" id="changelog-001-money_transfer">
+        <!--postgres sql highlight-->
         <sql>
-            create table money_transfer (
-            id SERIAL PRIMARY KEY,
+            create table money_transfer
+            (
+                id                   SERIAL PRIMARY KEY,
 
-            created_at TIMESTAMP WITH TIME ZONE NOT NULL,
-            created_by INTEGER NOT NULL,
-            updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
-            updated_by INTEGER NOT NULL,
+                created_at           TIMESTAMP                         NOT NULL,
+                created_by           INTEGER                           NOT NULL,
+                updated_at           TIMESTAMP                         NOT NULL,
+                updated_by           INTEGER                           NOT NULL,
 
-            fk_send_operation INTEGER REFERENCES operation (id),
-            fk_receive_operation INTEGER REFERENCES operation (id),
+                fk_send_operation    INTEGER REFERENCES operation (id) NOT NULL,
+                fk_receive_operation INTEGER REFERENCES operation (id) NOT NULL,
 
-            amount NUMERIC NOT NULL
+                amount               NUMERIC                           NOT NULL
             );
         </sql>
-        <rollback>
-            drop table money_transfer;
-        </rollback>
     </changeSet>
 
     <changeSet author="siarhei.piashko" id="changelog-001-cash_action">
+        <!--postgres sql highlight-->
         <sql>
-            create table cash_action (
-            id SERIAL PRIMARY KEY,
+            create table cash_action
+            (
+                id                      SERIAL PRIMARY KEY,
 
-            created_at TIMESTAMP WITH TIME ZONE NOT NULL,
-            created_by INTEGER NOT NULL,
-            updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
-            updated_by INTEGER NOT NULL,
+                created_at              TIMESTAMP NOT NULL,
+                created_by              INTEGER   NOT NULL,
+                updated_at              TIMESTAMP NOT NULL,
+                updated_by              INTEGER   NOT NULL,
 
-            action_type TEXT NOT NULL,
-            cash_amount NUMERIC NOT NULL,
+                action_type             TEXT      NOT NULL,
+                cash_amount             NUMERIC   NOT NULL,
 
-            fk_refill_operation INTEGER REFERENCES operation (id),
+                fk_refill_operation     INTEGER REFERENCES operation (id)
+                    CHECK ((NOT action_type = 'REFILL') OR (fk_refill_operation IS NOT NULL)),
 
-            fk_withdrawal_operation INTEGER REFERENCES operation (id),
-            included_fee NUMERIC NOT NULL
+                fk_withdrawal_operation INTEGER REFERENCES operation (id)
+                    CHECK ((NOT action_type = 'WITHDRAWAL') OR (fk_withdrawal_operation IS NOT NULL)),
+                included_fee            NUMERIC
+                    CHECK ((NOT action_type = 'WITHDRAWAL') OR (included_fee IS NOT NULL))
             );
         </sql>
-        <rollback>
-            drop table cash_action;
-        </rollback>
     </changeSet>
 
 </databaseChangeLog>
