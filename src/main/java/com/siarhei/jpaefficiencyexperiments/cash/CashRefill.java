@@ -20,11 +20,6 @@ public class CashRefill extends CashAction<CashRefillOperation> {
     @JoinColumn(name = "fk_refill_operation", updatable = false)
     private CashRefillOperation cashRefillOperation;
 
-    public void setCashRefillOperation(CashRefillOperation cashRefillOperation) {
-        cashRefillOperation.setCashRefill(this);
-        this.cashRefillOperation = cashRefillOperation;
-    }
-
     @Override
     public CashRefillOperation getCashOperation() {
         return this.cashRefillOperation;

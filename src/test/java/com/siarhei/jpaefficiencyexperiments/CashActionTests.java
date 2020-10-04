@@ -38,7 +38,7 @@ public class CashActionTests extends BaseApplicationTest {
 
         //then
         SQLStatementCountValidator.assertInsertCount(2);
-        Assertions.assertEquals(2, QueryCountHolder.getGrandTotal().getTotal());
+        Assertions.assertEquals(3, QueryCountHolder.getGrandTotal().getTotal());
 
         Assertions.assertNotNull(cashRefill);
         Assertions.assertNotNull(cashRefill.getId());
