@@ -2,14 +2,14 @@ package com.siarhei.jpaefficiencyexperiments.cash.impl;
 
 import com.siarhei.jpaefficiencyexperiments.cash.CashRefill;
 import com.siarhei.jpaefficiencyexperiments.cash.CashRefillCreationModel;
-import com.siarhei.jpaefficiencyexperiments.crudbase.ToEntityMapperSupport;
+import com.siarhei.jpaefficiencyexperiments.crudbase.mapperconfig.CreationMapperMappingConfig;
 import com.siarhei.jpaefficiencyexperiments.operation.CashRefillOperation;
 import org.mapstruct.*;
 
 import javax.persistence.EntityManager;
 
-@Mapper(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.ERROR)
-interface CashRefillCreationMapper extends ToEntityMapperSupport {
+@Mapper(config = CreationMapperMappingConfig.class)
+interface CashRefillCreationMapper {
 
     @Mapping(target = "cashRefillOperation.bankAccount", source = "bankAccountId")
     @Mapping(target = "cashRefillOperation.amount", source = "cashAmount")

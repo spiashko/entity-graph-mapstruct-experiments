@@ -2,15 +2,14 @@ package com.siarhei.jpaefficiencyexperiments.cash.impl;
 
 import com.siarhei.jpaefficiencyexperiments.cash.CashWithdrawal;
 import com.siarhei.jpaefficiencyexperiments.cash.CashWithdrawalCreationModel;
-import com.siarhei.jpaefficiencyexperiments.crudbase.ToEntityMapperSupport;
+import com.siarhei.jpaefficiencyexperiments.crudbase.mapperconfig.CreationMapperMappingConfig;
 import com.siarhei.jpaefficiencyexperiments.operation.CashWithdrawalOperation;
 import org.mapstruct.*;
 
 import javax.persistence.EntityManager;
 
-@Mapper(componentModel = "spring",
-        unmappedSourcePolicy = ReportingPolicy.ERROR, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-interface CashWithdrawalCreationMapper extends ToEntityMapperSupport {
+@Mapper(config = CreationMapperMappingConfig.class)
+interface CashWithdrawalCreationMapper {
 
     @Mapping(target = "cashWithdrawalOperation.bankAccount", source = "bankAccountId")
     @Mapping(target = "cashWithdrawalOperation.amount", source = "cashAmount", qualifiedByName = "operationAmountProvider")

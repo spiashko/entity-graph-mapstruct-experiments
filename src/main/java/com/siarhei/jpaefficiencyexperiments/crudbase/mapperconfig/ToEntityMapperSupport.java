@@ -1,13 +1,15 @@
-package com.siarhei.jpaefficiencyexperiments.crudbase;
+package com.siarhei.jpaefficiencyexperiments.crudbase.mapperconfig;
 
 import com.siarhei.jpaefficiencyexperiments.crudbase.entity.BaseEntity;
 import com.siarhei.jpaefficiencyexperiments.crudbase.exception.EntityNotFoundException;
 import org.mapstruct.Context;
+import org.mapstruct.Mapper;
 import org.mapstruct.TargetType;
 
 import javax.persistence.EntityManager;
 import java.util.UUID;
 
+@Mapper(componentModel = "spring")
 public interface ToEntityMapperSupport {
 
     default <T extends BaseEntity> T lookup(UUID id, @Context EntityManager entityManager,
