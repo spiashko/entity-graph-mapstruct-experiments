@@ -27,16 +27,16 @@ public class BankAccountTests extends BaseApplicationTest {
                 .build());
 
         //then
+        SQLStatementCountValidator.assertInsertCount(1);
+        Assertions.assertEquals(2, QueryCountHolder.getGrandTotal().getTotal());
+
         Assertions.assertNotNull(bankAccount);
         Assertions.assertTrue(bankAccount.getId() > 0);
         Assertions.assertEquals(100L, bankAccount.getBalance());
-
-        SQLStatementCountValidator.assertInsertCount(1);
-        Assertions.assertEquals(2, QueryCountHolder.getGrandTotal().getTotal());
     }
 
     @Test
-    void given_simple_account_when_get_account_view_a_then_one_record_retrieved() {
+    void given_one_account_when_find_all_account_view_a_then_one_record_retrieved() {
         //given
         BankAccountViewAModel createResponse =
                 managementService.createBankAccount(BankAccountCreationModel.builder()
@@ -48,17 +48,38 @@ public class BankAccountTests extends BaseApplicationTest {
         List<BankAccountViewAModel> all = searchService.findAll(BankAccountViewSelectors.viewA);
 
         //then
+        SQLStatementCountValidator.assertSelectCount(1);
+        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
+
         Assertions.assertEquals(1, all.size());
         BankAccountViewAModel retrieveResponse = all.get(0);
         Assertions.assertEquals(createResponse.getBalance(), retrieveResponse.getBalance());
         Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
-
-        SQLStatementCountValidator.assertSelectCount(1);
-        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
     }
 
     @Test
-    void given_simple_account_when_get_account_view_b_then_one_record_retrieved() {
+    void given_one_account_when_find_one_account_view_a_then_one_record_retrieved() {
+        //given
+        BankAccountViewAModel createResponse =
+                managementService.createBankAccount(BankAccountCreationModel.builder()
+                        .balance(100L)
+                        .build());
+        SQLStatementCountValidator.reset();
+
+        //when
+        BankAccountViewAModel retrieveResponse = searchService.findOneOrThrow(createResponse.getId(),
+                BankAccountViewSelectors.viewA);
+
+        //then
+        SQLStatementCountValidator.assertSelectCount(1);
+        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
+
+        Assertions.assertEquals(createResponse.getBalance(), retrieveResponse.getBalance());
+        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
+    }
+
+    @Test
+    void given_one_account_when_find_all_account_view_b_then_one_record_retrieved() {
         //given
         BankAccountViewAModel createResponse =
                 managementService.createBankAccount(BankAccountCreationModel.builder()
@@ -70,12 +91,33 @@ public class BankAccountTests extends BaseApplicationTest {
         List<BankAccountViewBModel> all = searchService.findAll(BankAccountViewSelectors.viewB);
 
         //then
+        SQLStatementCountValidator.assertSelectCount(1);
+        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
+
         Assertions.assertEquals(1, all.size());
         BankAccountViewBModel retrieveResponse = all.get(0);
         Assertions.assertEquals(createResponse.getBalance(), retrieveResponse.getBalance());
         Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
+    }
 
+    @Test
+    void given_one_account_when_find_one_account_view_b_then_one_record_retrieved() {
+        //given
+        BankAccountViewAModel createResponse =
+                managementService.createBankAccount(BankAccountCreationModel.builder()
+                        .balance(100L)
+                        .build());
+        SQLStatementCountValidator.reset();
+
+        //when
+        BankAccountViewBModel retrieveResponse = searchService.findOneOrThrow(createResponse.getId(),
+                BankAccountViewSelectors.viewB);
+
+        //then
         SQLStatementCountValidator.assertSelectCount(1);
         Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
+
+        Assertions.assertEquals(createResponse.getBalance(), retrieveResponse.getBalance());
+        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
     }
 }

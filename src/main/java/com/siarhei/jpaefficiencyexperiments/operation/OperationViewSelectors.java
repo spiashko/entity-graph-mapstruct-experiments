@@ -13,7 +13,7 @@ public class OperationViewSelectors {
             new OViewSelector<>(EntityGraphs.named("Operation.viewb"), OperationViewBModel.class);
 
     public static OViewSelector<OperationViewCModel> viewC =
-            new OViewSelector<>(EntityGraphs.named("Operation.viewb"), OperationViewCModel.class);
+            new OViewSelector<>(EntityGraphs.named("Operation.viewc"), OperationViewCModel.class);
 
     private static class OViewSelector<T> extends ViewSelector<T> {
 

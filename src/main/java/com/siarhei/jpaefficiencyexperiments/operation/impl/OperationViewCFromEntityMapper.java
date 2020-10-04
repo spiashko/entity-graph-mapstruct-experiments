@@ -13,7 +13,7 @@ public interface OperationViewCFromEntityMapper extends FromEntityMapper<Operati
     OperationViewCModel mapToViewC(OperationViewC entity);
 
     default <T> T map(OperationViewC entity, Class<T> clazz) {
-        if (OperationViewBModel.class.equals(clazz)) {
+        if (OperationViewCModel.class.equals(clazz)) {
             return (T) mapToViewC(entity);
         } else {
             throw new RequestedClassNotSupportedException(clazz);
