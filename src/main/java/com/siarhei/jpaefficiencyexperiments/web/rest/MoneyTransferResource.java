@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -39,14 +40,14 @@ public class MoneyTransferResource {
 
     @GetMapping("/money-transfers/{id}")
     public ResponseEntity<MoneyTransferViewAModel> getOneViewA(
-            @PathVariable Long id) {
+            @PathVariable UUID id) {
         MoneyTransferViewAModel result = searchService.findOneOrThrow(id, MoneyTransferViewAModel.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/money-transfers-viewb/{id}")
     public ResponseEntity<MoneyTransferViewBModel> getOneViewB(
-            @PathVariable Long id) {
+            @PathVariable UUID id) {
         MoneyTransferViewBModel result = searchService.findOneOrThrow(id, MoneyTransferViewBModel.class);
         return ResponseEntity.ok(result);
     }

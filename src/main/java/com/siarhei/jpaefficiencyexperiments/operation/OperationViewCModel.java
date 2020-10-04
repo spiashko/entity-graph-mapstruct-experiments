@@ -4,11 +4,13 @@ import com.siarhei.jpaefficiencyexperiments.cash.ActionType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 public class OperationViewCModel {
 
-    private Long id;
+    private UUID id;
     private BankAccountModel bankAccount;
     private Long amount;
     private OperationSource operationSource;
@@ -20,14 +22,14 @@ public class OperationViewCModel {
     @Getter
     @Setter
     public static class BankAccountModel {
-        private Long id;
+        private UUID id;
         private Long balance;
     }
 
     @Getter
     @Setter
     public static class CashActionModel {
-        private Long id;
+        private UUID id;
         private Long cashAmount;
         private Long fee;
         private ActionType actionType;
@@ -36,7 +38,7 @@ public class OperationViewCModel {
     @Getter
     @Setter
     public static class MoneyTransferModel {
-        private Long id;
+        private UUID id;
         private Long amount;
     }
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -35,19 +36,22 @@ public class OperationResource {
     }
 
     @GetMapping("/operations/{id}")
-    public ResponseEntity<OperationViewAModel> getOneViewA(@PathVariable Long id) {
+    public ResponseEntity<OperationViewAModel> getOneViewA(
+            @PathVariable UUID id) {
         OperationViewAModel result = summarySearchService.findOneOrThrow(id, OperationViewAModel.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/operations-viewb/{id}")
-    public ResponseEntity<OperationViewBModel> getOneViewB(@PathVariable Long id) {
+    public ResponseEntity<OperationViewBModel> getOneViewB(
+            @PathVariable UUID id) {
         OperationViewBModel result = summarySearchService.findOneOrThrow(id, OperationViewBModel.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/operations-viewc/{id}")
-    public ResponseEntity<OperationViewCModel> getOneViewC(@PathVariable Long id) {
+    public ResponseEntity<OperationViewCModel> getOneViewC(
+            @PathVariable UUID id) {
         OperationViewCModel result = searchService.findOneOrThrow(id, OperationViewCModel.class);
         return ResponseEntity.ok(result);
     }

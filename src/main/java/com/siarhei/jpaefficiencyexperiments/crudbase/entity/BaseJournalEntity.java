@@ -14,6 +14,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -30,7 +31,7 @@ public abstract class BaseJournalEntity extends BaseEntity {
     @NotNull
     @CreatedBy
     @Column(name = "created_by")
-    private Long createdBy;
+    private UUID createdBy;
 
     @NotNull
     @LastModifiedDate
@@ -41,6 +42,6 @@ public abstract class BaseJournalEntity extends BaseEntity {
     @NotNull
     @LastModifiedBy
     @Column(name = "updated_by")
-    private Long updatedBy;
+    private UUID updatedBy;
 
 }

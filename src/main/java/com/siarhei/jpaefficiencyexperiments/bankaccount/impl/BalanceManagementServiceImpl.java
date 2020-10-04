@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Service
 public class BalanceManagementServiceImpl implements BalanceManagementService {
@@ -17,7 +19,7 @@ public class BalanceManagementServiceImpl implements BalanceManagementService {
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
-    public void addToBalance(Long id, Long amount) {
+    public void addToBalance(UUID id, Long amount) {
         BankAccount customer = searchService.findOneOrThrow(id);
         customer.setBalance(customer.getBalance() + amount);
         customerRepository.save(customer);
@@ -25,7 +27,7 @@ public class BalanceManagementServiceImpl implements BalanceManagementService {
 
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
-    public void subtractFromBalance(Long id, Long amount) {
+    public void subtractFromBalance(UUID id, Long amount) {
         BankAccount customer = searchService.findOneOrThrow(id);
         customer.setBalance(customer.getBalance() - amount);
         customerRepository.save(customer);

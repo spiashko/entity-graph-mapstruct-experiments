@@ -28,10 +28,10 @@ public class BankAccountTests extends BaseApplicationTest {
 
         //then
         SQLStatementCountValidator.assertInsertCount(1);
-        Assertions.assertEquals(2, QueryCountHolder.getGrandTotal().getTotal());
+        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
 
         Assertions.assertNotNull(bankAccount);
-        Assertions.assertTrue(bankAccount.getId() > 0);
+        Assertions.assertNotNull(bankAccount.getId());
         Assertions.assertEquals(100L, bankAccount.getBalance());
     }
 

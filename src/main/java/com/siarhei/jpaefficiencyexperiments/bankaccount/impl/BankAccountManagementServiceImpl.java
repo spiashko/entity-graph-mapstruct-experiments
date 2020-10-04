@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Service
 public class BankAccountManagementServiceImpl implements BankAccountManagementService {
@@ -25,7 +27,7 @@ public class BankAccountManagementServiceImpl implements BankAccountManagementSe
 
     @Transactional
     @Override
-    public void deleteBankAccountById(Long id) {
+    public void deleteBankAccountById(UUID id) {
         repository.deleteById(id);
     }
 }

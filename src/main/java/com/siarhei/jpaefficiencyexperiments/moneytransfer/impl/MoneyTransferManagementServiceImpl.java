@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @Service
 public class MoneyTransferManagementServiceImpl implements MoneyTransferManagementService {
@@ -48,7 +50,7 @@ public class MoneyTransferManagementServiceImpl implements MoneyTransferManageme
         return mapper.mapToViewB(moneyTransfer);
     }
 
-    private BankAccount getBankAccount(Long bankAccountId) {
+    private BankAccount getBankAccount(UUID bankAccountId) {
         return bankAccountSearchService.findOneOrThrow(bankAccountId);
     }
 

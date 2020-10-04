@@ -7,6 +7,7 @@ import net.jodah.typetools.TypeResolver;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -43,19 +44,19 @@ public abstract class BaseSearchServiceImpl<
     }
 
     @Override
-    public Optional<E> findOne(Long id) {
+    public Optional<E> findOne(UUID id) {
         return repository.findById(id);
     }
 
     @Override
-    public <T> Optional<T> findOne(Long id, Class<T> clazz) {
+    public <T> Optional<T> findOne(UUID id, Class<T> clazz) {
         RetrieveContext<E, T> retrieveContext = resolver.resolve(clazz);
         Optional<E> entity = repository.findById(id, retrieveContext.getEntityGraph());
         return entity.map(e -> retrieveContext.getMapper().apply(e));
     }
 
     @Override
-    public E findOneOrThrow(Long id) {
+    public E findOneOrThrow(UUID id) {
         Optional<E> result = findOne(id);
         if (result.isEmpty()) {
             throw new EntityNotFoundException(
@@ -65,7 +66,7 @@ public abstract class BaseSearchServiceImpl<
     }
 
     @Override
-    public <T> T findOneOrThrow(Long id, Class<T> clazz) {
+    public <T> T findOneOrThrow(UUID id, Class<T> clazz) {
         Optional<T> result = findOne(id, clazz);
         if (result.isEmpty()) {
             throw new EntityNotFoundException(

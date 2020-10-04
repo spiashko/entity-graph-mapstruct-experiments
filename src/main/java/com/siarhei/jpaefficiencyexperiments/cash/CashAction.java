@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,10 +19,9 @@ import javax.validation.constraints.NotNull;
 public class CashAction extends BaseJournalEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cash_action_generator")
-    @SequenceGenerator(name="cash_action_generator", sequenceName = "cash_action_id_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;
+    private UUID id;
 
     @NotNull
     @Column(name = "cash_amount")

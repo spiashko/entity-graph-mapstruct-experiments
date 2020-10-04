@@ -52,13 +52,12 @@ public class MoneyTransferTests extends BaseApplicationTest {
         // insert operation from
         // insert operation to
         // insert money transfer
-        // 3 select currva
-        // total 8
+        // total 5
         SQLStatementCountValidator.assertInsertCount(3);
-        Assertions.assertEquals(8, QueryCountHolder.getGrandTotal().getTotal());
+        Assertions.assertEquals(5, QueryCountHolder.getGrandTotal().getTotal());
 
         Assertions.assertNotNull(moneyTransfer);
-        Assertions.assertTrue(moneyTransfer.getId() > 0);
+        Assertions.assertNotNull(moneyTransfer.getId());
         Assertions.assertEquals(10L, moneyTransfer.getAmount());
 
         List<OperationViewCModel> operations = operationViewCSearchService.findAll(OperationViewCModel.class);

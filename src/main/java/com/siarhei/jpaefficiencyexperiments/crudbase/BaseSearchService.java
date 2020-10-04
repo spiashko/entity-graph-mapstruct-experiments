@@ -4,6 +4,7 @@ import com.siarhei.jpaefficiencyexperiments.crudbase.entity.BaseJournalEntity;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface BaseSearchService<E extends BaseJournalEntity> {
 
@@ -11,12 +12,12 @@ public interface BaseSearchService<E extends BaseJournalEntity> {
 
     <T> List<T> findAll(Class<T> clazz);
 
-    Optional<E> findOne(Long id);
+    Optional<E> findOne(UUID id);
 
-    <T> Optional<T> findOne(Long id, Class<T> clazz);
+    <T> Optional<T> findOne(UUID id, Class<T> clazz);
 
-    E findOneOrThrow(Long id);
+    E findOneOrThrow(UUID id);
 
-    <T> T findOneOrThrow(Long id, Class<T> clazz);
+    <T> T findOneOrThrow(UUID id, Class<T> clazz);
 
 }
