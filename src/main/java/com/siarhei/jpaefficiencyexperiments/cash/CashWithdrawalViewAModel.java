@@ -9,6 +9,6 @@ import lombok.experimental.SuperBuilder;
 @Getter
 public class CashWithdrawalViewAModel extends BaseCashActionViewAModel {
 
-    private Long includedFee;
+    private Long fee;
 
 }

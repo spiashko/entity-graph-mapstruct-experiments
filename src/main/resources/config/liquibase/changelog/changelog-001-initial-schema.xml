@@ -105,8 +105,8 @@
 
                 fk_withdrawal_operation UUID REFERENCES operation (id)
                     CHECK ((NOT action_type = 'WITHDRAWAL') OR (fk_withdrawal_operation IS NOT NULL)),
-                included_fee            NUMERIC
-                    CHECK ((NOT action_type = 'WITHDRAWAL') OR (included_fee IS NOT NULL))
+                withdrawal_fee          NUMERIC
+                    CHECK ((NOT action_type = 'WITHDRAWAL') OR (withdrawal_fee IS NOT NULL))
             );
         </sql>
     </changeSet>

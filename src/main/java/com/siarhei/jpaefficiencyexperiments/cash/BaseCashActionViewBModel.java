@@ -12,7 +12,6 @@ import java.util.UUID;
 public abstract class BaseCashActionViewBModel {
 
     private UUID id;
-    private UUID bankAccountId;
     private Long cashAmount;
 
     @Setter

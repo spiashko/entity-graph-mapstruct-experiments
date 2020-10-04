@@ -5,12 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -20,13 +15,14 @@ import javax.validation.constraints.NotNull;
 @DiscriminatorValue("WITHDRAWAL")
 public class CashWithdrawal extends CashAction {
 
+    @NotNull
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "fk_withdrawal_operation", updatable = false)
     private CashWithdrawalOperation cashWithdrawalOperation;
 
     @NotNull
-    @Column(name = "included_fee")
-    private Long includedFee;
+    @Column(name = "withdrawal_fee")
+    private Long fee;
 
     public void setCashWithdrawalOperation(CashWithdrawalOperation cashWithdrawalOperation) {
         cashWithdrawalOperation.setCashWithdrawal(this);
