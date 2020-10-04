@@ -10,7 +10,7 @@ import java.util.UUID;
 public class OperationViewAModel {
 
     private UUID id;
-    private Long bankAccountId;
+    private UUID bankAccountId;
     private Long amount;
     private OperationSource operationSource;
 

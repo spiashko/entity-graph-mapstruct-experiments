@@ -4,9 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.UUID;
+
 @SuperBuilder
 @Setter
 @Getter
-public class CashRefillCreationModel extends BaseCashActionCreationModel {
+public abstract class BaseCashActionCreationModel {
+
+    private UUID bankAccountId;
+    private Long cashAmount;
 
 }

@@ -7,6 +7,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @Setter
 @Getter
-public class CashRefillCreationModel extends BaseCashActionCreationModel {
+public class CashRefillViewAModel extends BaseCashActionViewAModel {
 
 }
