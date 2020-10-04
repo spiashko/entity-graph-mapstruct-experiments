@@ -13,11 +13,13 @@ public class CashWithdrawalCreationServiceImpl
         extends AbstractCashActionCreationService<CashWithdrawal, CashWithdrawalViewBModel, CashWithdrawalCreationModel>
         implements CashActionCreationService<CashWithdrawalViewBModel, CashWithdrawalCreationModel> {
 
+    private static final Long DEFAULT_FEE = 1L;
+
     public CashWithdrawalCreationServiceImpl(
             EntityManager entityManager,
             CashWithdrawalCreationMapper mapper,
             CashWithdrawalSearchMapper searchMapper,
             CashActionRepository cashActionRepository) {
-        super(cm -> mapper.map(cm, entityManager), searchMapper::mapToViewB, cashActionRepository);
+        super(cm -> mapper.map(cm, DEFAULT_FEE, entityManager), searchMapper::mapToViewB, cashActionRepository);
     }
 }

@@ -54,7 +54,7 @@ public class CashActionTests extends BaseApplicationTest {
         //given
         BankAccountViewAModel createResponse =
                 bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
-                        .balance(100L)
+                        .balance(200L)
                         .build());
         SQLStatementCountValidator.reset();
 
@@ -72,10 +72,11 @@ public class CashActionTests extends BaseApplicationTest {
         Assertions.assertNotNull(cashWithdrawal);
         Assertions.assertNotNull(cashWithdrawal.getId());
         Assertions.assertEquals(100L, cashWithdrawal.getCashAmount());
+        Assertions.assertEquals(1L, cashWithdrawal.getFee());
         BaseCashActionViewBModel.CashActionOperationModel operation = cashWithdrawal.getCashWithdrawalOperation();
         Assertions.assertNotNull(operation);
         Assertions.assertNotNull(operation.getId());
-        Assertions.assertEquals(100L, operation.getAmount());
+        Assertions.assertEquals(101L, operation.getAmount());
         Assertions.assertEquals(createResponse.getId(), operation.getBankAccountId());
     }
 

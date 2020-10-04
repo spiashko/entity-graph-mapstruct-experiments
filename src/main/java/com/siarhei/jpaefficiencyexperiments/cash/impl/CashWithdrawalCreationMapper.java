@@ -8,16 +8,28 @@ import org.mapstruct.*;
 
 import javax.persistence.EntityManager;
 
-@Mapper(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.ERROR)
+@Mapper(componentModel = "spring",
+        unmappedSourcePolicy = ReportingPolicy.ERROR, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 interface CashWithdrawalCreationMapper extends ToEntityMapperSupport {
 
     @Mapping(target = "cashWithdrawalOperation.bankAccount", source = "bankAccountId")
-    @Mapping(target = "cashWithdrawalOperation.amount", source = "cashAmount")
-    CashWithdrawal map(CashWithdrawalCreationModel creationModel, @Context EntityManager entityManager,
-                       @Context BiDirectionalReferences references);
+    @Mapping(target = "cashWithdrawalOperation.amount", source = "cashAmount", qualifiedByName = "operationAmountProvider")
+    CashWithdrawal map(CashWithdrawalCreationModel creationModel, @Context Long fee,
+                       @Context EntityManager entityManager, @Context BiDirectionalReferences references);
 
-    default CashWithdrawal map(CashWithdrawalCreationModel creationModel, @Context EntityManager entityManager) {
-        return map(creationModel, entityManager, new BiDirectionalReferences());
+    @Named("operationAmountProvider")
+    default Long calcOperationAmountBasedOnRequestedCashAmount(Long cashAmount, @Context Long fee) {
+        return cashAmount + fee;
+    }
+
+    @AfterMapping
+    default void populateFee(@MappingTarget CashWithdrawal entity, @Context Long fee) {
+        entity.setFee(fee);
+    }
+
+    default CashWithdrawal map(CashWithdrawalCreationModel creationModel, @Context Long fee,
+                               @Context EntityManager entityManager) {
+        return map(creationModel, fee, entityManager, new BiDirectionalReferences());
     }
 
     class BiDirectionalReferences {
