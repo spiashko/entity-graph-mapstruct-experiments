@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
-public class BaseOperationEntity extends BaseJournalEntity {
+public abstract class BaseOperationEntity extends BaseJournalEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +25,7 @@ public class BaseOperationEntity extends BaseJournalEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "fk_bank_account")
     private BankAccount bankAccount;
+
     @NotNull
     @Column(name = "amount")
     private Long amount;
@@ -33,7 +34,7 @@ public class BaseOperationEntity extends BaseJournalEntity {
     @Column(name = "operation_source", insertable = false, updatable = false)
     private OperationSource operationSource;
 
-    public BaseOperationEntity(BankAccount bankAccount, @NotNull Long amount) {
+    public BaseOperationEntity(BankAccount bankAccount, Long amount) {
         this.bankAccount = bankAccount;
         this.amount = amount;
     }

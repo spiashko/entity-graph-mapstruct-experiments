@@ -4,6 +4,7 @@ import com.siarhei.jpaefficiencyexperiments.cash.BaseCashActionCreationModel;
 import com.siarhei.jpaefficiencyexperiments.cash.BaseCashActionViewBModel;
 import com.siarhei.jpaefficiencyexperiments.cash.CashAction;
 import com.siarhei.jpaefficiencyexperiments.cash.CashActionCreationService;
+import com.siarhei.jpaefficiencyexperiments.operation.CashOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +13,7 @@ import java.util.function.Function;
 
 @RequiredArgsConstructor
 abstract class AbstractCashActionCreationService<
-        E extends CashAction,
+        E extends CashAction<? extends CashOperation<?>>,
         RM extends BaseCashActionViewBModel,
         CM extends BaseCashActionCreationModel>
         implements CashActionCreationService<RM, CM> {

@@ -7,11 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -19,14 +15,21 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Entity
 @DiscriminatorValue("CASH_REFILL")
-public class CashRefillOperation extends InOperation {
+public class CashRefillOperation extends CashOperation<CashRefill> implements InOperation {
 
+    @NotNull
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cashRefillOperation", optional = false)
     private CashRefill cashRefill;
 
     @Builder
-    public CashRefillOperation(BankAccount bankAccount, @NotNull Long amount, CashRefill cashRefill) {
+    public CashRefillOperation(BankAccount bankAccount, Long amount, CashRefill cashRefill) {
         super(bankAccount, amount);
         this.cashRefill = cashRefill;
     }
+
+    @Override
+    public CashRefill getCashAction() {
+        return this.cashRefill;
+    }
+
 }

@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Entity
 @DiscriminatorValue("REFILL")
-public class CashRefill extends CashAction {
+public class CashRefill extends CashAction<CashRefillOperation> {
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
@@ -23,5 +23,10 @@ public class CashRefill extends CashAction {
     public void setCashRefillOperation(CashRefillOperation cashRefillOperation) {
         cashRefillOperation.setCashRefill(this);
         this.cashRefillOperation = cashRefillOperation;
+    }
+
+    @Override
+    public CashRefillOperation getCashOperation() {
+        return this.cashRefillOperation;
     }
 }

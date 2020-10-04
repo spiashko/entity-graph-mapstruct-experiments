@@ -1,6 +1,7 @@
 package com.siarhei.jpaefficiencyexperiments.cash;
 
 import com.siarhei.jpaefficiencyexperiments.crudbase.entity.BaseJournalEntity;
+import com.siarhei.jpaefficiencyexperiments.operation.CashOperation;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Table(name = "cash_action")
 @DiscriminatorColumn(name = "action_type")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class CashAction extends BaseJournalEntity {
+public abstract class CashAction<T extends CashOperation<?>> extends BaseJournalEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,5 +31,7 @@ public class CashAction extends BaseJournalEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "action_type", insertable = false, updatable = false)
     private ActionType actionType;
+
+    public abstract T getCashOperation();
 
 }

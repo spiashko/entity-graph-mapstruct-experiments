@@ -5,12 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -19,10 +14,9 @@ import javax.validation.constraints.NotNull;
 @Table(name = "operation")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "operation_source")
-public class Operation extends BaseOperationEntity {
+public abstract class Operation extends BaseOperationEntity {
 
-    public Operation(BankAccount bankAccount, @NotNull Long amount) {
+    public Operation(BankAccount bankAccount, Long amount) {
         super(bankAccount, amount);
     }
-
 }

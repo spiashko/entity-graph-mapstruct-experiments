@@ -18,14 +18,14 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Entity
 @DiscriminatorValue("RECEIVE_MONEY_TRANSFER")
-public class ReceiveMoneyTransferOperation extends InOperation {
+public class ReceiveMoneyTransferOperation extends Operation implements InOperation {
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "receiveOperation", optional = false)
     private MoneyTransfer receiveMoneyTransfer;
 
     @Builder
-    public ReceiveMoneyTransferOperation(BankAccount bankAccount, @NotNull Long amount, MoneyTransfer receiveMoneyTransfer) {
+    public ReceiveMoneyTransferOperation(BankAccount bankAccount, Long amount, MoneyTransfer receiveMoneyTransfer) {
         super(bankAccount, amount);
         this.receiveMoneyTransfer = receiveMoneyTransfer;
     }

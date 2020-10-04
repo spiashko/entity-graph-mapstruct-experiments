@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Entity
 @DiscriminatorValue("WITHDRAWAL")
-public class CashWithdrawal extends CashAction {
+public class CashWithdrawal extends CashAction<CashWithdrawalOperation> {
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, optional = false)
@@ -29,4 +29,8 @@ public class CashWithdrawal extends CashAction {
         this.cashWithdrawalOperation = cashWithdrawalOperation;
     }
 
+    @Override
+    public CashWithdrawalOperation getCashOperation() {
+        return cashWithdrawalOperation;
+    }
 }
