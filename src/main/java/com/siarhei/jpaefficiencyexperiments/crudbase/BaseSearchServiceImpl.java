@@ -36,9 +36,7 @@ public abstract class BaseSearchServiceImpl<
     @Override
     public <T> List<T> findAll(Class<T> clazz) {
         RetrieveContext<E, T> retrieveContext = resolver.resolve(clazz);
-        Iterable<E> iterable = retrieveContext.getEntityGraph() == null ?
-                repository.findAll() :
-                repository.findAll(retrieveContext.getEntityGraph());
+        Iterable<E> iterable = repository.findAll(retrieveContext.getEntityGraph());
         return StreamSupport.stream(iterable.spliterator(), false)
                 .map(e -> retrieveContext.getMapper().apply(e))
                 .collect(Collectors.toList());
@@ -52,9 +50,7 @@ public abstract class BaseSearchServiceImpl<
     @Override
     public <T> Optional<T> findOne(Long id, Class<T> clazz) {
         RetrieveContext<E, T> retrieveContext = resolver.resolve(clazz);
-        Optional<E> entity = retrieveContext.getEntityGraph() == null ?
-                repository.findById(id) :
-                repository.findById(id, retrieveContext.getEntityGraph());
+        Optional<E> entity = repository.findById(id, retrieveContext.getEntityGraph());
         return entity.map(e -> retrieveContext.getMapper().apply(e));
     }
 

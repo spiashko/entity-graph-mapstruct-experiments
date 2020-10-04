@@ -4,7 +4,6 @@ import com.siarhei.jpaefficiencyexperiments.crudbase.BaseSearchServiceImpl;
 import com.siarhei.jpaefficiencyexperiments.moneytransfer.MoneyTransfer;
 import com.siarhei.jpaefficiencyexperiments.moneytransfer.MoneyTransferSearchService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MoneyTransferSearchServiceImpl
@@ -17,11 +16,4 @@ public class MoneyTransferSearchServiceImpl
         super(resolver, repository);
     }
 
-    @Transactional
-    @Override
-    public MoneyTransfer findMoneyTransferCustom(Long id) {
-        MoneyTransfer moneyTransferFull = findOneOrThrow(id);
-        moneyTransferFull.getReceiveOperation();
-        return moneyTransferFull;
-    }
 }

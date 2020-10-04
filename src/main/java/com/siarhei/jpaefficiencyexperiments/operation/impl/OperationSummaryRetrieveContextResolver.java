@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class OperationSummaryRetrieveContextResolver extends AbstractRetrieveContextResolver<OperationSummary> {
 
     OperationSummaryRetrieveContextResolver(OperationMapper mapper) {
-        putInMapping(OperationViewAModel.class, null, mapper::mapToViewA);
+        putInMapping(OperationViewAModel.class, EntityGraphs.empty(), mapper::mapToViewA);
         putInMapping(OperationViewBModel.class, EntityGraphs.named("Operation.viewb"), mapper::mapToViewB);
     }
 
