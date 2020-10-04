@@ -14,14 +14,13 @@ public class BankAccountManagementServiceImpl implements BankAccountManagementSe
 
     private final BankAccountRepository repository;
     private final BankAccountMapper mapper;
-    private final BankAccountFromEntityMapper fromEntityMapper;
 
     @Transactional
     @Override
     public BankAccountViewAModel createBankAccount(BankAccountCreationModel creationModel) {
         BankAccount bankAccount = mapper.map(creationModel);
         repository.save(bankAccount);
-        return fromEntityMapper.mapToViewA(bankAccount);
+        return mapper.mapToViewA(bankAccount);
     }
 
     @Transactional

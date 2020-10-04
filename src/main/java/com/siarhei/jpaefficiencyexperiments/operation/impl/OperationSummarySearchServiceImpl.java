@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OperationSummarySearchServiceImpl
-        extends BaseSearchServiceImpl<OperationSummary, OperationSummaryRepository, OperationSummaryFromEntityMapper>
+        extends BaseSearchServiceImpl<OperationSummary, OperationSummaryRepository, OperationSummaryRetrieveContextResolver>
         implements OperationSummarySearchService {
 
     public OperationSummarySearchServiceImpl(
             OperationSummaryRepository repository,
-            OperationSummaryFromEntityMapper mapper) {
+            OperationSummaryRetrieveContextResolver mapper) {
         super(mapper, repository);
     }
 

@@ -27,27 +27,27 @@ public class MoneyTransferResource {
 
     @GetMapping(value = "/money-transfers")
     public ResponseEntity<List<MoneyTransferViewAModel>> getAllViewA() {
-        List<MoneyTransferViewAModel> result = searchService.findAll(MoneyTransferViewSelectors.viewA);
+        List<MoneyTransferViewAModel> result = searchService.findAll(MoneyTransferViewAModel.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/money-transfers-viewb")
     public ResponseEntity<List<MoneyTransferViewBModel>> getAllViewB() {
-        List<MoneyTransferViewBModel> result = searchService.findAll(MoneyTransferViewSelectors.viewB);
+        List<MoneyTransferViewBModel> result = searchService.findAll(MoneyTransferViewBModel.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/money-transfers/{id}")
     public ResponseEntity<MoneyTransferViewAModel> getOneViewA(
             @PathVariable Long id) {
-        MoneyTransferViewAModel result = searchService.findOneOrThrow(id, MoneyTransferViewSelectors.viewA);
+        MoneyTransferViewAModel result = searchService.findOneOrThrow(id, MoneyTransferViewAModel.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/money-transfers-viewb/{id}")
     public ResponseEntity<MoneyTransferViewBModel> getOneViewB(
             @PathVariable Long id) {
-        MoneyTransferViewBModel result = searchService.findOneOrThrow(id, MoneyTransferViewSelectors.viewB);
+        MoneyTransferViewBModel result = searchService.findOneOrThrow(id, MoneyTransferViewBModel.class);
         return ResponseEntity.ok(result);
     }
 

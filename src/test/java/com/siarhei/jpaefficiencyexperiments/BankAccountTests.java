@@ -45,7 +45,7 @@ public class BankAccountTests extends BaseApplicationTest {
         SQLStatementCountValidator.reset();
 
         //when
-        List<BankAccountViewAModel> all = searchService.findAll(BankAccountViewSelectors.viewA);
+        List<BankAccountViewAModel> all = searchService.findAll(BankAccountViewAModel.class);
 
         //then
         SQLStatementCountValidator.assertSelectCount(1);
@@ -68,7 +68,7 @@ public class BankAccountTests extends BaseApplicationTest {
 
         //when
         BankAccountViewAModel retrieveResponse = searchService.findOneOrThrow(createResponse.getId(),
-                BankAccountViewSelectors.viewA);
+                BankAccountViewAModel.class);
 
         //then
         SQLStatementCountValidator.assertSelectCount(1);
@@ -88,7 +88,7 @@ public class BankAccountTests extends BaseApplicationTest {
         SQLStatementCountValidator.reset();
 
         //when
-        List<BankAccountViewBModel> all = searchService.findAll(BankAccountViewSelectors.viewB);
+        List<BankAccountViewBModel> all = searchService.findAll(BankAccountViewBModel.class);
 
         //then
         SQLStatementCountValidator.assertSelectCount(1);
@@ -111,7 +111,7 @@ public class BankAccountTests extends BaseApplicationTest {
 
         //when
         BankAccountViewBModel retrieveResponse = searchService.findOneOrThrow(createResponse.getId(),
-                BankAccountViewSelectors.viewB);
+                BankAccountViewBModel.class);
 
         //then
         SQLStatementCountValidator.assertSelectCount(1);

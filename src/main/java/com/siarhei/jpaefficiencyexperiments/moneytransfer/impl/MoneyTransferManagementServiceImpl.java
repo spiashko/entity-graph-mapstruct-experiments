@@ -18,7 +18,6 @@ public class MoneyTransferManagementServiceImpl implements MoneyTransferManageme
 
     private final MoneyTransferRepository repository;
     private final MoneyTransferMapper mapper;
-    private final MoneyTransferFromEntityMapper fromEntityMapper;
     private final BankAccountSearchService bankAccountSearchService;
 
     @Override
@@ -46,7 +45,7 @@ public class MoneyTransferManagementServiceImpl implements MoneyTransferManageme
 
         repository.save(moneyTransfer);
 
-        return fromEntityMapper.mapToViewB(moneyTransfer);
+        return mapper.mapToViewB(moneyTransfer);
     }
 
     private BankAccount getBankAccount(Long bankAccountId) {

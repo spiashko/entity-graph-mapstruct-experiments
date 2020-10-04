@@ -6,15 +6,18 @@ import com.siarhei.jpaefficiencyexperiments.cash.CashRefillCreationModel;
 import com.siarhei.jpaefficiencyexperiments.operation.CashRefillOperation;
 import org.springframework.stereotype.Service;
 
+import java.util.function.Function;
+
 @Service
 public class CashRefillManagementServiceImpl
-        extends AbstractCashActionManagementService<CashRefill, CashRefillOperation, CashRefillCreationModel, CashRefillMapper>
+        extends AbstractCashActionManagementService<CashRefill, CashRefillOperation, CashRefillCreationModel,
+        Function<CashRefillCreationModel, CashRefill>>
         implements CashActionManagementService<CashRefill, CashRefillCreationModel> {
 
 
     public CashRefillManagementServiceImpl(
             CashRefillMapper mapper,
             CashActionRepository cashActionRepository) {
-        super(mapper, cashActionRepository);
+        super(mapper::map, cashActionRepository);
     }
 }

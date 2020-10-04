@@ -6,7 +6,6 @@ import com.siarhei.jpaefficiencyexperiments.bankaccount.BankAccountViewAModel;
 import com.siarhei.jpaefficiencyexperiments.moneytransfer.*;
 import com.siarhei.jpaefficiencyexperiments.operation.OperationViewCModel;
 import com.siarhei.jpaefficiencyexperiments.operation.OperationViewCSearchService;
-import com.siarhei.jpaefficiencyexperiments.operation.OperationViewSelectors;
 import com.vladmihalcea.sql.SQLStatementCountValidator;
 import net.ttddyy.dsproxy.QueryCountHolder;
 import org.junit.jupiter.api.Assertions;
@@ -62,7 +61,7 @@ public class MoneyTransferTests extends BaseApplicationTest {
         Assertions.assertTrue(moneyTransfer.getId() > 0);
         Assertions.assertEquals(10L, moneyTransfer.getAmount());
 
-        List<OperationViewCModel> operations = operationViewCSearchService.findAll(OperationViewSelectors.viewC);
+        List<OperationViewCModel> operations = operationViewCSearchService.findAll(OperationViewCModel.class);
         Assertions.assertEquals(2, operations.size());
 
         OperationViewCModel sendOperation = operations.stream()
@@ -104,7 +103,7 @@ public class MoneyTransferTests extends BaseApplicationTest {
         SQLStatementCountValidator.reset();
 
         //when
-        List<MoneyTransferViewAModel> all = searchService.findAll(MoneyTransferViewSelectors.viewA);
+        List<MoneyTransferViewAModel> all = searchService.findAll(MoneyTransferViewAModel.class);
 
         //then
         SQLStatementCountValidator.assertSelectCount(1);
@@ -137,7 +136,7 @@ public class MoneyTransferTests extends BaseApplicationTest {
 
         //when
         MoneyTransferViewAModel retrieveResponse = searchService.findOneOrThrow(createResponse.getId(),
-                MoneyTransferViewSelectors.viewA);
+                MoneyTransferViewAModel.class);
 
         //then
         SQLStatementCountValidator.assertSelectCount(1);
@@ -168,7 +167,7 @@ public class MoneyTransferTests extends BaseApplicationTest {
         SQLStatementCountValidator.reset();
 
         //when
-        List<MoneyTransferViewBModel> all = searchService.findAll(MoneyTransferViewSelectors.viewB);
+        List<MoneyTransferViewBModel> all = searchService.findAll(MoneyTransferViewBModel.class);
 
         //then
         SQLStatementCountValidator.assertSelectCount(1);
@@ -202,7 +201,8 @@ public class MoneyTransferTests extends BaseApplicationTest {
         SQLStatementCountValidator.reset();
 
         //when
-        MoneyTransferViewBModel retrieveResponse = searchService.findOneOrThrow(createResponse.getId(), MoneyTransferViewSelectors.viewB);
+        MoneyTransferViewBModel retrieveResponse = searchService.findOneOrThrow(createResponse.getId(),
+                MoneyTransferViewBModel.class);
 
         //then
         SQLStatementCountValidator.assertSelectCount(1);

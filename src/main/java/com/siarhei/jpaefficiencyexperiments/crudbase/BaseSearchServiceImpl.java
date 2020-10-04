@@ -2,7 +2,6 @@ package com.siarhei.jpaefficiencyexperiments.crudbase;
 
 import com.siarhei.jpaefficiencyexperiments.crudbase.entity.BaseJournalEntity;
 import com.siarhei.jpaefficiencyexperiments.crudbase.exception.EntityNotFoundException;
-import com.siarhei.jpaefficiencyexperiments.crudbase.mapper.FromEntityMapper;
 import com.siarhei.jpaefficiencyexperiments.crudbase.repository.BaseJournalRepository;
 import net.jodah.typetools.TypeResolver;
 
@@ -14,15 +13,15 @@ import java.util.stream.StreamSupport;
 public abstract class BaseSearchServiceImpl<
         E extends BaseJournalEntity,
         R extends BaseJournalRepository<E>,
-        M extends FromEntityMapper<E>>
+        RCR extends RetrieveContextResolver<E>>
         implements BaseSearchService<E> {
 
-    private final M mapper;
+    private final RCR resolver;
     private final R repository;
     private final Class<E> persistentClass;
 
-    protected BaseSearchServiceImpl(M mapper, R repository) {
-        this.mapper = mapper;
+    protected BaseSearchServiceImpl(RCR resolver, R repository) {
+        this.resolver = resolver;
         this.repository = repository;
 
         Class<?>[] typeArguments = TypeResolver.resolveRawArguments(BaseJournalRepository.class, repository.getClass());
@@ -35,12 +34,13 @@ public abstract class BaseSearchServiceImpl<
     }
 
     @Override
-    public <T> List<T> findAll(ViewSelector<T> viewSelector) {
-        Iterable<E> iterable = viewSelector.getEntityGraph() == null ?
+    public <T> List<T> findAll(Class<T> clazz) {
+        RetrieveContext<E, T> retrieveContext = resolver.resolve(clazz);
+        Iterable<E> iterable = retrieveContext.getEntityGraph() == null ?
                 repository.findAll() :
-                repository.findAll(viewSelector.getEntityGraph());
+                repository.findAll(retrieveContext.getEntityGraph());
         return StreamSupport.stream(iterable.spliterator(), false)
-                .map(e -> mapper.map(e, viewSelector.getClazz()))
+                .map(e -> retrieveContext.getMapper().apply(e))
                 .collect(Collectors.toList());
     }
 
@@ -50,11 +50,12 @@ public abstract class BaseSearchServiceImpl<
     }
 
     @Override
-    public <T> Optional<T> findOne(Long id, ViewSelector<T> viewSelector) {
-        Optional<E> entity = viewSelector.getEntityGraph() == null ?
+    public <T> Optional<T> findOne(Long id, Class<T> clazz) {
+        RetrieveContext<E, T> retrieveContext = resolver.resolve(clazz);
+        Optional<E> entity = retrieveContext.getEntityGraph() == null ?
                 repository.findById(id) :
-                repository.findById(id, viewSelector.getEntityGraph());
-        return entity.map(e -> mapper.map(e, viewSelector.getClazz()));
+                repository.findById(id, retrieveContext.getEntityGraph());
+        return entity.map(e -> retrieveContext.getMapper().apply(e));
     }
 
     @Override
@@ -68,8 +69,8 @@ public abstract class BaseSearchServiceImpl<
     }
 
     @Override
-    public <T> T findOneOrThrow(Long id, ViewSelector<T> viewSelector) {
-        Optional<T> result = findOne(id, viewSelector);
+    public <T> T findOneOrThrow(Long id, Class<T> clazz) {
+        Optional<T> result = findOne(id, clazz);
         if (result.isEmpty()) {
             throw new EntityNotFoundException(
                     String.format("No %s entity with id %s exists!", persistentClass.getSimpleName(), id));

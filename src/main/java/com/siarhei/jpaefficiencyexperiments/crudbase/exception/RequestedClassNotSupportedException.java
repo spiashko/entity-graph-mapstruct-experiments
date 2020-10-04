@@ -1,4 +1,4 @@
-package com.siarhei.jpaefficiencyexperiments.crudbase.mapper;
+package com.siarhei.jpaefficiencyexperiments.crudbase.exception;
 
 import lombok.Getter;
 

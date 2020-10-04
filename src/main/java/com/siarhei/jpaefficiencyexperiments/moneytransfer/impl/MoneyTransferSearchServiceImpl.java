@@ -8,13 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MoneyTransferSearchServiceImpl
-        extends BaseSearchServiceImpl<MoneyTransfer, MoneyTransferRepository, MoneyTransferFromEntityMapper>
+        extends BaseSearchServiceImpl<MoneyTransfer, MoneyTransferRepository, MoneyTransferRetrieveContextResolver>
         implements MoneyTransferSearchService {
 
     protected MoneyTransferSearchServiceImpl(
             MoneyTransferRepository repository,
-            MoneyTransferFromEntityMapper mapper) {
-        super(mapper, repository);
+            MoneyTransferRetrieveContextResolver resolver) {
+        super(resolver, repository);
     }
 
     @Transactional
