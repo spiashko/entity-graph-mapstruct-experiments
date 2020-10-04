@@ -15,9 +15,10 @@ public class CashRefillCreationServiceImpl
 
     public CashRefillCreationServiceImpl(
             EntityManager entityManager,
-            CashRefillMapper mapper,
+            CashRefillCreationMapper mapper,
+            CashRefillSearchMapper searchMapper,
             CashActionRepository cashActionRepository) {
-        super(cm -> mapper.map(cm, entityManager), mapper::mapToViewB, cashActionRepository);
+        super(cm -> mapper.map(cm, entityManager), searchMapper::mapToViewB, cashActionRepository);
     }
 
 }

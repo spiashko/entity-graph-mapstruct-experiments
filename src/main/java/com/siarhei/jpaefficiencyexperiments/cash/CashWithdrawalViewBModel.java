@@ -10,6 +10,6 @@ import lombok.experimental.SuperBuilder;
 public class CashWithdrawalViewBModel extends BaseCashActionViewBModel {
 
     private Long fee;
-    private CashActionOperationModel cashRefillOperation;
+    private CashActionOperationModel cashWithdrawalOperation;
 
 }

@@ -6,14 +6,18 @@ import com.siarhei.jpaefficiencyexperiments.cash.CashWithdrawalCreationModel;
 import com.siarhei.jpaefficiencyexperiments.cash.CashWithdrawalViewBModel;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+
 @Service
 public class CashWithdrawalCreationServiceImpl
         extends AbstractCashActionCreationService<CashWithdrawal, CashWithdrawalViewBModel, CashWithdrawalCreationModel>
         implements CashActionCreationService<CashWithdrawalViewBModel, CashWithdrawalCreationModel> {
 
     public CashWithdrawalCreationServiceImpl(
-            CashWithdrawalMapper mapper,
+            EntityManager entityManager,
+            CashWithdrawalCreationMapper mapper,
+            CashWithdrawalSearchMapper searchMapper,
             CashActionRepository cashActionRepository) {
-        super(mapper::map, mapper::mapToViewB, cashActionRepository);
+        super(cm -> mapper.map(cm, entityManager), searchMapper::mapToViewB, cashActionRepository);
     }
 }
