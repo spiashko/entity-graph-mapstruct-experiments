@@ -33,7 +33,8 @@ import javax.validation.constraints.NotNull;
 public class MoneyTransfer extends BaseJournalEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "money_transfer_generator")
+    @SequenceGenerator(name="money_transfer_generator", sequenceName = "money_transfer_id_seq")
     @Column(name = "id")
     private Long id;
 

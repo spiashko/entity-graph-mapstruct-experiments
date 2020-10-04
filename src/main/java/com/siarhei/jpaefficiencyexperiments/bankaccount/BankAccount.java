@@ -24,7 +24,8 @@ import java.util.List;
 public class BankAccount extends BaseJournalEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bank_account_generator")
+    @SequenceGenerator(name="bank_account_generator", sequenceName = "bank_account_id_seq")
     @Column(name = "id")
     private Long id;
 

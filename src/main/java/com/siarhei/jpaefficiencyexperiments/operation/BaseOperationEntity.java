@@ -16,7 +16,8 @@ import javax.validation.constraints.NotNull;
 public class BaseOperationEntity extends BaseJournalEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "operation_generator")
+    @SequenceGenerator(name="operation_generator", sequenceName = "operation_id_seq")
     @Column(name = "id")
     private Long id;
 

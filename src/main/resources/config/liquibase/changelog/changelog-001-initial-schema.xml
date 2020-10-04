@@ -4,13 +4,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="siarhei.piashko" id="changelog-001-hibernate_sequence">
-        <!--postgres sql highlight-->
-        <sql>
-            CREATE SEQUENCE hibernate_sequence START 1;
-        </sql>
-    </changeSet>
-
     <changeSet author="siarhei.piashko" id="changelog-001-bank_account">
         <!--postgres sql highlight-->
         <sql>
