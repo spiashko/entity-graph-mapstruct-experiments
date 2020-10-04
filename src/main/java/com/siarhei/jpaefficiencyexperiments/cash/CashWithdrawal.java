@@ -16,18 +16,13 @@ import javax.validation.constraints.NotNull;
 public class CashWithdrawal extends CashAction<CashWithdrawalOperation> {
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "fk_withdrawal_operation", updatable = false)
     private CashWithdrawalOperation cashWithdrawalOperation;
 
     @NotNull
     @Column(name = "withdrawal_fee")
     private Long fee;
-
-    public void setCashWithdrawalOperation(CashWithdrawalOperation cashWithdrawalOperation) {
-        cashWithdrawalOperation.setCashWithdrawal(this);
-        this.cashWithdrawalOperation = cashWithdrawalOperation;
-    }
 
     @Override
     public CashWithdrawalOperation getCashOperation() {
