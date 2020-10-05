@@ -20,9 +20,7 @@
                 id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
                 created_at TIMESTAMP NOT NULL,
-                created_by UUID      NOT NULL,
                 updated_at TIMESTAMP NOT NULL,
-                updated_by UUID      NOT NULL,
 
                 balance    NUMERIC   NOT NULL
             );
@@ -37,9 +35,7 @@
                 id               UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
                 created_at       TIMESTAMP NOT NULL,
-                created_by       UUID      NOT NULL,
                 updated_at       TIMESTAMP NOT NULL,
-                updated_by       UUID      NOT NULL,
 
                 fk_bank_account  UUID      NOT NULL REFERENCES bank_account (id),
 
@@ -113,9 +109,7 @@
                 id                   UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
                 created_at           TIMESTAMP                      NOT NULL,
-                created_by           UUID                           NOT NULL,
                 updated_at           TIMESTAMP                      NOT NULL,
-                updated_by           UUID                           NOT NULL,
 
                 fk_send_operation    UUID REFERENCES operation (id) NOT NULL
                     CONSTRAINT fk_send_operation_is_send_money_transfer_operation
@@ -137,9 +131,7 @@
                 id                      UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
                 created_at              TIMESTAMP NOT NULL,
-                created_by              UUID      NOT NULL,
                 updated_at              TIMESTAMP NOT NULL,
-                updated_by              UUID      NOT NULL,
 
                 action_type             TEXT      NOT NULL
                     CONSTRAINT action_type_is_one_of
