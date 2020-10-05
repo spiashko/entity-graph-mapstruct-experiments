@@ -10,8 +10,8 @@ import java.util.UUID;
 public class MoneyTransferViewBModel {
 
     private UUID id;
-    private Long fromBankAccountId;
-    private Long toBankAccountId;
+    private UUID fromBankAccountId;
+    private UUID toBankAccountId;
     private Long amount;
 
 }

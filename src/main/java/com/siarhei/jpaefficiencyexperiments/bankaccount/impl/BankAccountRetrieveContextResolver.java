@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 class BankAccountRetrieveContextResolver extends AbstractRetrieveContextResolver<BankAccount> {
 
-    BankAccountRetrieveContextResolver(BankAccountMapper mapper) {
+    BankAccountRetrieveContextResolver(BankAccountSearchMapper mapper) {
         putInMapping(BankAccountViewAModel.class, EntityGraphs.empty(), mapper::mapToViewA);
         putInMapping(BankAccountViewBModel.class, EntityGraphs.named("BankAccount.operations"), mapper::mapToViewB);
     }

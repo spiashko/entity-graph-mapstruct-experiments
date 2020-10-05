@@ -52,13 +52,4 @@ public class MoneyTransfer extends BaseJournalEntity {
     @JoinColumn(name = "fk_receive_operation", updatable = false)
     private ReceiveMoneyTransferOperation receiveOperation;
 
-    public void setSendOperation(SendMoneyTransferOperation sendOperation) {
-        this.sendOperation = sendOperation;
-        sendOperation.setSendMoneyTransfer(this);
-    }
-
-    public void setReceiveOperation(ReceiveMoneyTransferOperation receiveOperation) {
-        this.receiveOperation = receiveOperation;
-        receiveOperation.setReceiveMoneyTransfer(this);
-    }
 }

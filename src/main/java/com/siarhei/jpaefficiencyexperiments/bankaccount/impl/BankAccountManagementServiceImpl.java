@@ -15,14 +15,15 @@ import java.util.UUID;
 public class BankAccountManagementServiceImpl implements BankAccountManagementService {
 
     private final BankAccountRepository repository;
-    private final BankAccountMapper mapper;
+    private final BankAccountCreationMapper creationMapper;
+    private final BankAccountSearchMapper searchMapper;
 
     @Transactional
     @Override
     public BankAccountViewAModel createBankAccount(BankAccountCreationModel creationModel) {
-        BankAccount bankAccount = mapper.map(creationModel);
+        BankAccount bankAccount = creationMapper.map(creationModel);
         repository.save(bankAccount);
-        return mapper.mapToViewA(bankAccount);
+        return searchMapper.mapToViewA(bankAccount);
     }
 
     @Transactional

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MoneyTransferRetrieveContextResolver extends AbstractRetrieveContextResolver<MoneyTransfer> {
 
-    MoneyTransferRetrieveContextResolver(MoneyTransferMapper mapper) {
+    MoneyTransferRetrieveContextResolver(MoneyTransferSearchMapper mapper) {
         putInMapping(MoneyTransferViewAModel.class, EntityGraphs.empty(), mapper::mapToViewA);
         putInMapping(MoneyTransferViewBModel.class, EntityGraphs.named("MoneyTransfer.all"), mapper::mapToViewB);
     }
