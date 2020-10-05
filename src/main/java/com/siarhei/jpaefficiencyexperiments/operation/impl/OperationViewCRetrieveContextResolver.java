@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OperationViewCRetrieveContextResolver extends AbstractRetrieveContextResolver<OperationViewC> {
 
-    OperationViewCRetrieveContextResolver(OperationMapper mapper) {
+    OperationViewCRetrieveContextResolver(OperationSearchMapper mapper) {
         putInMapping(OperationViewCModel.class, EntityGraphs.named("Operation.viewc"), mapper::mapToViewC);
     }
 

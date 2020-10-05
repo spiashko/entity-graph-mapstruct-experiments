@@ -16,8 +16,8 @@ public class OperationViewCModel {
     private OperationSource operationSource;
     private MoneyTransferModel sendMoneyTransfer;
     private MoneyTransferModel receiveMoneyTransfer;
-    private CashActionModel cashWithdrawal;
-    private CashActionModel cashRefill;
+    private CashWithdrawalModel cashWithdrawal;
+    private CashRefillModel cashRefill;
 
     @Getter
     @Setter
@@ -28,7 +28,15 @@ public class OperationViewCModel {
 
     @Getter
     @Setter
-    public static class CashActionModel {
+    public static class CashRefillModel {
+        private UUID id;
+        private Long cashAmount;
+        private ActionType actionType;
+    }
+
+    @Getter
+    @Setter
+    public static class CashWithdrawalModel {
         private UUID id;
         private Long cashAmount;
         private Long fee;
