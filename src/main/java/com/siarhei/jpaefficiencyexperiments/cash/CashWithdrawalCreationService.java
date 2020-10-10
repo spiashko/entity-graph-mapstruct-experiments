@@ -1,4 +1,4 @@
 package com.siarhei.jpaefficiencyexperiments.cash;
 
-public interface CashWithdrawalCreationService extends CashActionCreationService<CashWithdrawalViewBModel, CashWithdrawalCreationModel> {
+public interface CashWithdrawalCreationService extends BaseCashActionCreationService<CashWithdrawalViewBModel, CashWithdrawalCreationModel> {
 }

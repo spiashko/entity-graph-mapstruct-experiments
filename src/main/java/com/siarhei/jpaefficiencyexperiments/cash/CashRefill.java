@@ -13,6 +13,10 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Entity
 @DiscriminatorValue("REFILL")
+@NamedEntityGraph(
+        name = "CashRefill.operation",
+        attributeNodes = @NamedAttributeNode("cashRefillOperation")
+)
 public class CashRefill extends CashAction<CashRefillOperation> {
 
     @NotNull

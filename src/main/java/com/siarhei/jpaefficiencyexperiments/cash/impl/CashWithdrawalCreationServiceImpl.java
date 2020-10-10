@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 
 @Service
-public class CashWithdrawalCreationServiceImpl
+class CashWithdrawalCreationServiceImpl
         extends AbstractCashActionCreationService<CashWithdrawal, CashWithdrawalViewBModel, CashWithdrawalCreationModel>
         implements CashWithdrawalCreationService {
 

@@ -1,4 +1,4 @@
 package com.siarhei.jpaefficiencyexperiments.cash;
 
-public interface CashRefillCreationService extends CashActionCreationService<CashRefillViewBModel, CashRefillCreationModel> {
+public interface CashRefillCreationService extends BaseCashActionCreationService<CashRefillViewBModel, CashRefillCreationModel> {
 }

@@ -1,9 +1,9 @@
 package com.siarhei.jpaefficiencyexperiments.cash.impl;
 
 import com.siarhei.jpaefficiencyexperiments.cash.BaseCashActionCreationModel;
+import com.siarhei.jpaefficiencyexperiments.cash.BaseCashActionCreationService;
 import com.siarhei.jpaefficiencyexperiments.cash.BaseCashActionViewBModel;
 import com.siarhei.jpaefficiencyexperiments.cash.CashAction;
-import com.siarhei.jpaefficiencyexperiments.cash.CashActionCreationService;
 import com.siarhei.jpaefficiencyexperiments.operation.CashOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Isolation;
@@ -13,10 +13,10 @@ import java.util.function.Function;
 
 @RequiredArgsConstructor
 abstract class AbstractCashActionCreationService<
-        E extends CashAction<? extends CashOperation<?>>,
+        E extends CashAction<? extends CashOperation<E>>,
         RM extends BaseCashActionViewBModel,
         CM extends BaseCashActionCreationModel>
-        implements CashActionCreationService<RM, CM> {
+        implements BaseCashActionCreationService<RM, CM> {
 
     private final Function<CM, E> mapperToEntity;
     private final Function<E, RM> mapperFromEntity;
