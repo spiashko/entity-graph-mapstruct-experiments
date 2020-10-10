@@ -20,7 +20,7 @@ public class CashActionTests extends BaseApplicationTest {
     private BankAccountManagementService bankAccountManagementService;
 
     @Test
-    void given_one_account_when_create_cash_refill_then_created() {
+    void givenOneAccount_whenCreateCashRefill_thenCreated() {
         //given
         BankAccountViewAModel createResponse =
                 bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
@@ -50,7 +50,7 @@ public class CashActionTests extends BaseApplicationTest {
     }
 
     @Test
-    void given_one_account_when_create_cash_withdrawal_then_created() {
+    void givenOneAccount_whenCreateCashWithdrawal_thenCreated() {
         //given
         BankAccountViewAModel createResponse =
                 bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()

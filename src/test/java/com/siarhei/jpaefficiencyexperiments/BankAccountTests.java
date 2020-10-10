@@ -17,7 +17,7 @@ public class BankAccountTests extends BaseApplicationTest {
     private BankAccountSearchService searchService;
 
     @Test
-    void when_create_account_then_created() {
+    void whenCreateAccount_thenCreated() {
         //given
         SQLStatementCountValidator.reset();
 
@@ -36,7 +36,7 @@ public class BankAccountTests extends BaseApplicationTest {
     }
 
     @Test
-    void given_one_account_when_find_all_account_view_a_then_one_record_retrieved() {
+    void givenOneAccount_whenFindAllAccountViewA_thenOneRecordRetrieved() {
         //given
         BankAccountViewAModel createResponse =
                 managementService.createBankAccount(BankAccountCreationModel.builder()
@@ -58,7 +58,7 @@ public class BankAccountTests extends BaseApplicationTest {
     }
 
     @Test
-    void given_one_account_when_find_one_account_view_a_then_one_record_retrieved() {
+    void givenOneAccount_whenFindOneAccountViewA_thenOneRecordRetrieved() {
         //given
         BankAccountViewAModel createResponse =
                 managementService.createBankAccount(BankAccountCreationModel.builder()
@@ -79,7 +79,7 @@ public class BankAccountTests extends BaseApplicationTest {
     }
 
     @Test
-    void given_one_account_when_find_all_account_view_b_then_one_record_retrieved() {
+    void givenOneAccount_whenFindAllAccountViewB_thenOneRecordRetrieved() {
         //given
         BankAccountViewAModel createResponse =
                 managementService.createBankAccount(BankAccountCreationModel.builder()
@@ -101,7 +101,7 @@ public class BankAccountTests extends BaseApplicationTest {
     }
 
     @Test
-    void given_one_account_when_find_one_account_view_b_then_one_record_retrieved() {
+    void givenOneAccount_whenFindOneAccountViewB_thenOneRecordRetrieved() {
         //given
         BankAccountViewAModel createResponse =
                 managementService.createBankAccount(BankAccountCreationModel.builder()

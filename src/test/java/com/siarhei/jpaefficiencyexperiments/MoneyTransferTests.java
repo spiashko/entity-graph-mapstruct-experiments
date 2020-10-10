@@ -26,7 +26,7 @@ public class MoneyTransferTests extends BaseApplicationTest {
     private MoneyTransferSearchService searchService;
 
     @Test
-    void given_two_accounts_when_create_money_transfer_then_created() {
+    void givenTwoAccounts_whenCreateMoneyTransfer_thenCreated() {
         //given
         BankAccountViewAModel accountFrom =
                 bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
@@ -83,7 +83,7 @@ public class MoneyTransferTests extends BaseApplicationTest {
     }
 
     @Test
-    void given_one_money_transfer_when_find_all_money_transfer_view_a_then_one_record_retrieved() {
+    void givenOneMoneyTransfer_whenFindAllMoneyTransferViewA_thenOneRecordRetrieved() {
         //given
         BankAccountViewAModel accountFrom =
                 bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
@@ -115,7 +115,7 @@ public class MoneyTransferTests extends BaseApplicationTest {
     }
 
     @Test
-    void given_one_money_transfer_when_find_one_money_transfer_view_a_then_one_record_retrieved() {
+    void givenOneMoneyTransfer_whenFindOneMoneyTransferViewA_thenOneRecordRetrieved() {
         //given
         BankAccountViewAModel accountFrom =
                 bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
@@ -147,7 +147,7 @@ public class MoneyTransferTests extends BaseApplicationTest {
     }
 
     @Test
-    void given_one_money_transfer_when_find_all_money_transfer_view_b_then_one_record_retrieved() {
+    void givenOneMoneyTransfer_whenFindAllMoneyTransferViewB_thenOneRecordRetrieved() {
         //given
         BankAccountViewAModel accountFrom =
                 bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
@@ -181,7 +181,7 @@ public class MoneyTransferTests extends BaseApplicationTest {
     }
 
     @Test
-    void given_one_money_transfer_when_find_one_money_transfer_view_b_then_one_record_retrieved() {
+    void givenOneMoneyTransfer_whenFindOneMoneyTransferViewB_thenOneRecordRetrieved() {
         //given
         BankAccountViewAModel accountFrom =
                 bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
