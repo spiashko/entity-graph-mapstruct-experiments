@@ -11,6 +11,6 @@ class CashWithdrawalRetrieveContextResolver extends AbstractCashActionRetrieveCo
 
     CashWithdrawalRetrieveContextResolver(CashWithdrawalSearchMapper mapper) {
         putInMapping(CashWithdrawalViewAModel.class, EntityGraphs.empty(), mapper::mapToViewA);
-        putInMapping(CashWithdrawalViewBModel.class, EntityGraphs.named("CashWithdrawal.operation"), mapper::mapToViewB);
+        putInMapping(CashWithdrawalViewBModel.class, EntityGraphs.named("CashWithdrawal.all"), mapper::mapToViewB);
     }
 }

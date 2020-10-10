@@ -10,12 +10,18 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 public class CashActionTests extends BaseApplicationTest {
 
     @Autowired
     private CashRefillCreationService cashRefillManagementService;
     @Autowired
+    private CashRefillSearchService cashRefillSearchService;
+    @Autowired
     private CashWithdrawalCreationService cashWithdrawalManagementService;
+    @Autowired
+    private CashWithdrawalSearchService cashWithdrawalSearchService;
     @Autowired
     private BankAccountManagementService bankAccountManagementService;
 
@@ -78,6 +84,35 @@ public class CashActionTests extends BaseApplicationTest {
         Assertions.assertNotNull(operation.getId());
         Assertions.assertEquals(101L, operation.getAmount());
         Assertions.assertEquals(createResponse.getId(), operation.getBankAccountId());
+    }
+
+    @Test
+    void givenCashRefill_whenFindAllCashRefillViewA_thenOneRecordRetrieved() {
+        //given
+        BankAccountViewAModel bankAccount =
+                bankAccountManagementService.createBankAccount(
+                        BankAccountCreationModel.builder()
+                                .balance(100L)
+                                .build());
+        CashRefillViewBModel createResponse =
+                cashRefillManagementService.createCashAction(
+                        CashRefillCreationModel.builder()
+                                .bankAccountId(bankAccount.getId())
+                                .cashAmount(100L)
+                                .build());
+        SQLStatementCountValidator.reset();
+
+        //when
+        List<CashRefillViewAModel> all = cashRefillSearchService.findAll(CashRefillViewAModel.class);
+
+        //then
+        SQLStatementCountValidator.assertSelectCount(1);
+        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
+
+        Assertions.assertEquals(1, all.size());
+        CashRefillViewAModel retrieveResponse = all.get(0);
+        Assertions.assertEquals(createResponse.getCashAmount(), retrieveResponse.getCashAmount());
+        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
     }
 
 }

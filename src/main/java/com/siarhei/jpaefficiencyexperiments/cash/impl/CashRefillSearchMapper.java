@@ -13,7 +13,6 @@ interface CashRefillSearchMapper {
     @Mapping(target = "cashRefillOperation.bankAccountId", source = "cashRefillOperation.bankAccount.id")
     CashRefillViewBModel mapToViewB(CashRefill entity);
 
-    @Mapping(target = "bankAccountId", source = "cashRefillOperation.bankAccount.id")
     CashRefillViewAModel mapToViewA(CashRefill entity);
 
 }

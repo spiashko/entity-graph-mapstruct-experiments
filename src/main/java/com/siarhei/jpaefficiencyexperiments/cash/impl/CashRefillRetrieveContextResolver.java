@@ -11,6 +11,6 @@ class CashRefillRetrieveContextResolver extends AbstractCashActionRetrieveContex
 
     CashRefillRetrieveContextResolver(CashRefillSearchMapper mapper) {
         putInMapping(CashRefillViewAModel.class, EntityGraphs.empty(), mapper::mapToViewA);
-        putInMapping(CashRefillViewBModel.class, EntityGraphs.named("CashRefill.operation"), mapper::mapToViewB);
+        putInMapping(CashRefillViewBModel.class, EntityGraphs.named("CashRefill.all"), mapper::mapToViewB);
     }
 }

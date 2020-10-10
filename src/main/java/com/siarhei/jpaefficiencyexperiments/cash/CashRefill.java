@@ -14,8 +14,16 @@ import javax.validation.constraints.NotNull;
 @Entity
 @DiscriminatorValue("REFILL")
 @NamedEntityGraph(
-        name = "CashRefill.operation",
-        attributeNodes = @NamedAttributeNode("cashRefillOperation")
+        name = "CashRefill.all",
+        attributeNodes = {
+                @NamedAttributeNode(value = "cashRefillOperation", subgraph = "Operation.bankAccount"),
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "Operation.bankAccount",
+                        attributeNodes = @NamedAttributeNode("bankAccount")
+                )
+        }
 )
 public class CashRefill extends CashAction<CashRefillOperation> {
 

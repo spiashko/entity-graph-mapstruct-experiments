@@ -13,7 +13,6 @@ interface CashWithdrawalSearchMapper {
     @Mapping(target = "cashWithdrawalOperation.bankAccountId", source = "cashWithdrawalOperation.bankAccount.id")
     CashWithdrawalViewBModel mapToViewB(CashWithdrawal entity);
 
-    @Mapping(target = "bankAccountId", source = "cashWithdrawalOperation.bankAccount.id")
     CashWithdrawalViewAModel mapToViewA(CashWithdrawal entity);
 
 }
