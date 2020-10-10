@@ -12,7 +12,7 @@ import javax.persistence.MappedSuperclass;
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
-public abstract class CashOperation<T extends CashAction<?>> extends Operation {
+public abstract class CashOperation<T extends CashAction<? extends CashOperation<T>>> extends Operation {
 
     public CashOperation(BankAccount bankAccount, Long amount) {
         super(bankAccount, amount);

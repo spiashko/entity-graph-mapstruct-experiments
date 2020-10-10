@@ -17,7 +17,7 @@ import java.util.UUID;
 @Table(name = "cash_action")
 @DiscriminatorColumn(name = "action_type")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class CashAction<T extends CashOperation<?>> extends BaseJournalEntity {
+public abstract class CashAction<T extends CashOperation<? extends CashAction<T>>> extends BaseJournalEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
