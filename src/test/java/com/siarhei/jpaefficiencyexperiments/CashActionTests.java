@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CashActionTests extends BaseApplicationTest {
 
     @Autowired
-    private CashActionCreationService<CashRefillViewBModel, CashRefillCreationModel> cashRefillManagementService;
+    private CashRefillCreationService cashRefillManagementService;
     @Autowired
-    private CashActionCreationService<CashWithdrawalViewBModel, CashWithdrawalCreationModel> cashWithdrawalManagementService;
+    private CashWithdrawalCreationService cashWithdrawalManagementService;
     @Autowired
     private BankAccountManagementService bankAccountManagementService;
 
