@@ -10,8 +10,8 @@ import org.mapstruct.Mapping;
 @Mapper(config = SearchMapperMappingConfig.class)
 interface MoneyTransferSearchMapper {
 
-    @Mapping(target = "fromBankAccountId", source = "sendOperation.bankAccount.id")
-    @Mapping(target = "toBankAccountId", source = "receiveOperation.bankAccount.id")
+    @Mapping(target = "sendOperation.bankAccountId", source = "sendOperation.bankAccount.id")
+    @Mapping(target = "receiveOperation.bankAccountId", source = "receiveOperation.bankAccount.id")
     MoneyTransferViewBModel mapToViewB(MoneyTransfer entity);
 
     MoneyTransferViewAModel mapToViewA(MoneyTransfer entity);

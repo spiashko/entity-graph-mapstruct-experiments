@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 public class BankAccountTests extends BaseApplicationTest {
 
     @Autowired
@@ -36,7 +34,7 @@ public class BankAccountTests extends BaseApplicationTest {
     }
 
     @Test
-    void givenOneAccount_whenFindAllAccountViewA_thenOneRecordRetrieved() {
+    void givenOneAccount_whenFindAccountViewX_thenOnlyOneSqlExecuted() {
         //given
         BankAccountViewAModel createResponse =
                 managementService.createBankAccount(BankAccountCreationModel.builder()
@@ -44,80 +42,11 @@ public class BankAccountTests extends BaseApplicationTest {
                         .build());
         SQLStatementCountValidator.reset();
 
-        //when
-        List<BankAccountViewAModel> all = searchService.findAll(BankAccountViewAModel.class);
+        //when-then
+        AssertUtils.assertSelectCountExactlyOne(() -> searchService.findAll(BankAccountViewAModel.class));
+        AssertUtils.assertSelectCountExactlyOne(() -> searchService.findAll(BankAccountViewBModel.class));
 
-        //then
-        SQLStatementCountValidator.assertSelectCount(1);
-        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
-
-        Assertions.assertEquals(1, all.size());
-        BankAccountViewAModel retrieveResponse = all.get(0);
-        Assertions.assertEquals(createResponse.getBalance(), retrieveResponse.getBalance());
-        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
-    }
-
-    @Test
-    void givenOneAccount_whenFindOneAccountViewA_thenOneRecordRetrieved() {
-        //given
-        BankAccountViewAModel createResponse =
-                managementService.createBankAccount(BankAccountCreationModel.builder()
-                        .balance(100L)
-                        .build());
-        SQLStatementCountValidator.reset();
-
-        //when
-        BankAccountViewAModel retrieveResponse = searchService.findOneOrThrow(createResponse.getId(),
-                BankAccountViewAModel.class);
-
-        //then
-        SQLStatementCountValidator.assertSelectCount(1);
-        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
-
-        Assertions.assertEquals(createResponse.getBalance(), retrieveResponse.getBalance());
-        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
-    }
-
-    @Test
-    void givenOneAccount_whenFindAllAccountViewB_thenOneRecordRetrieved() {
-        //given
-        BankAccountViewAModel createResponse =
-                managementService.createBankAccount(BankAccountCreationModel.builder()
-                        .balance(100L)
-                        .build());
-        SQLStatementCountValidator.reset();
-
-        //when
-        List<BankAccountViewBModel> all = searchService.findAll(BankAccountViewBModel.class);
-
-        //then
-        SQLStatementCountValidator.assertSelectCount(1);
-        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
-
-        Assertions.assertEquals(1, all.size());
-        BankAccountViewBModel retrieveResponse = all.get(0);
-        Assertions.assertEquals(createResponse.getBalance(), retrieveResponse.getBalance());
-        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
-    }
-
-    @Test
-    void givenOneAccount_whenFindOneAccountViewB_thenOneRecordRetrieved() {
-        //given
-        BankAccountViewAModel createResponse =
-                managementService.createBankAccount(BankAccountCreationModel.builder()
-                        .balance(100L)
-                        .build());
-        SQLStatementCountValidator.reset();
-
-        //when
-        BankAccountViewBModel retrieveResponse = searchService.findOneOrThrow(createResponse.getId(),
-                BankAccountViewBModel.class);
-
-        //then
-        SQLStatementCountValidator.assertSelectCount(1);
-        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
-
-        Assertions.assertEquals(createResponse.getBalance(), retrieveResponse.getBalance());
-        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
+        AssertUtils.assertSelectCountExactlyOne(() -> searchService.findOneOrThrow(createResponse.getId(), BankAccountViewAModel.class));
+        AssertUtils.assertSelectCountExactlyOne(() -> searchService.findOneOrThrow(createResponse.getId(), BankAccountViewBModel.class));
     }
 }

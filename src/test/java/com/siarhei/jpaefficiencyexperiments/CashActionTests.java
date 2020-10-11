@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 public class CashActionTests extends BaseApplicationTest {
 
     @Autowired
@@ -56,7 +54,7 @@ public class CashActionTests extends BaseApplicationTest {
     }
 
     @Test
-    void givenCashRefill_whenFindAllCashRefillViewA_thenOneRecordRetrieved() {
+    void givenCashRefill_whenFindCashRefillViewX_thenOnlyOneSqlExecuted() {
         //given
         BankAccountViewAModel bankAccount =
                 bankAccountManagementService.createBankAccount(
@@ -71,48 +69,12 @@ public class CashActionTests extends BaseApplicationTest {
                                 .build());
         SQLStatementCountValidator.reset();
 
-        //when
-        List<CashRefillViewAModel> all = cashRefillSearchService.findAll(CashRefillViewAModel.class);
+        //when-then
+        AssertUtils.assertSelectCountExactlyOne(() -> cashRefillSearchService.findAll(CashRefillViewAModel.class));
+        AssertUtils.assertSelectCountExactlyOne(() -> cashRefillSearchService.findAll(CashRefillViewBModel.class));
 
-        //then
-        SQLStatementCountValidator.assertSelectCount(1);
-        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
-
-        Assertions.assertEquals(1, all.size());
-        CashRefillViewAModel retrieveResponse = all.get(0);
-        Assertions.assertEquals(createResponse.getCashAmount(), retrieveResponse.getCashAmount());
-        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
-    }
-
-    @Test
-    void givenCashRefill_whenFindAllCashRefillViewB_thenOneRecordRetrieved() {
-        //given
-        BankAccountViewAModel bankAccount =
-                bankAccountManagementService.createBankAccount(
-                        BankAccountCreationModel.builder()
-                                .balance(100L)
-                                .build());
-        CashRefillViewBModel createResponse =
-                cashRefillManagementService.createCashAction(
-                        CashRefillCreationModel.builder()
-                                .bankAccountId(bankAccount.getId())
-                                .cashAmount(100L)
-                                .build());
-        SQLStatementCountValidator.reset();
-
-        //when
-        List<CashRefillViewBModel> all = cashRefillSearchService.findAll(CashRefillViewBModel.class);
-
-        //then
-        SQLStatementCountValidator.assertSelectCount(1);
-        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
-
-        Assertions.assertEquals(1, all.size());
-        CashRefillViewBModel retrieveResponse = all.get(0);
-        Assertions.assertEquals(createResponse.getCashAmount(), retrieveResponse.getCashAmount());
-        Assertions.assertEquals(createResponse.getCashRefillOperation().getBankAccountId(),
-                retrieveResponse.getCashRefillOperation().getBankAccountId());
-        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
+        AssertUtils.assertSelectCountExactlyOne(() -> cashRefillSearchService.findOneOrThrow(createResponse.getId(), CashRefillViewAModel.class));
+        AssertUtils.assertSelectCountExactlyOne(() -> cashRefillSearchService.findOneOrThrow(createResponse.getId(), CashRefillViewBModel.class));
     }
 
     @Test
@@ -147,7 +109,7 @@ public class CashActionTests extends BaseApplicationTest {
     }
 
     @Test
-    void givenCashWithdrawal_whenFindAllCashWithdrawalViewA_thenOneRecordRetrieved() {
+    void givenCashWithdrawal_whenFindCashWithdrawalViewX_thenOnlyOneSqlExecuted() {
         //given
         BankAccountViewAModel bankAccount =
                 bankAccountManagementService.createBankAccount(
@@ -162,48 +124,12 @@ public class CashActionTests extends BaseApplicationTest {
                                 .build());
         SQLStatementCountValidator.reset();
 
-        //when
-        List<CashWithdrawalViewAModel> all = cashWithdrawalSearchService.findAll(CashWithdrawalViewAModel.class);
+        //when-then
+        AssertUtils.assertSelectCountExactlyOne(() -> cashWithdrawalSearchService.findAll(CashWithdrawalViewAModel.class));
+        AssertUtils.assertSelectCountExactlyOne(() -> cashWithdrawalSearchService.findAll(CashWithdrawalViewBModel.class));
 
-        //then
-        SQLStatementCountValidator.assertSelectCount(1);
-        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
-
-        Assertions.assertEquals(1, all.size());
-        CashWithdrawalViewAModel retrieveResponse = all.get(0);
-        Assertions.assertEquals(createResponse.getCashAmount(), retrieveResponse.getCashAmount());
-        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
-    }
-
-    @Test
-    void givenCashWithdrawal_whenFindAllCashWithdrawalViewB_thenOneRecordRetrieved() {
-        //given
-        BankAccountViewAModel bankAccount =
-                bankAccountManagementService.createBankAccount(
-                        BankAccountCreationModel.builder()
-                                .balance(100L)
-                                .build());
-        CashWithdrawalViewBModel createResponse =
-                cashWithdrawalManagementService.createCashAction(
-                        CashWithdrawalCreationModel.builder()
-                                .bankAccountId(bankAccount.getId())
-                                .cashAmount(100L)
-                                .build());
-        SQLStatementCountValidator.reset();
-
-        //when
-        List<CashWithdrawalViewBModel> all = cashWithdrawalSearchService.findAll(CashWithdrawalViewBModel.class);
-
-        //then
-        SQLStatementCountValidator.assertSelectCount(1);
-        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
-
-        Assertions.assertEquals(1, all.size());
-        CashWithdrawalViewBModel retrieveResponse = all.get(0);
-        Assertions.assertEquals(createResponse.getCashAmount(), retrieveResponse.getCashAmount());
-        Assertions.assertEquals(createResponse.getCashWithdrawalOperation().getBankAccountId(),
-                retrieveResponse.getCashWithdrawalOperation().getBankAccountId());
-        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
+        AssertUtils.assertSelectCountExactlyOne(() -> cashWithdrawalSearchService.findOneOrThrow(createResponse.getId(), CashWithdrawalViewAModel.class));
+        AssertUtils.assertSelectCountExactlyOne(() -> cashWithdrawalSearchService.findOneOrThrow(createResponse.getId(), CashWithdrawalViewBModel.class));
     }
 
 }

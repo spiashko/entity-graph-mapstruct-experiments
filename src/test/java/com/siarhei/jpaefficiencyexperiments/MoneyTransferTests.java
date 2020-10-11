@@ -83,7 +83,7 @@ public class MoneyTransferTests extends BaseApplicationTest {
     }
 
     @Test
-    void givenOneMoneyTransfer_whenFindAllMoneyTransferViewA_thenOneRecordRetrieved() {
+    void givenOneMoneyTransfer_whenFindMoneyTransferViewX_thenOnlyOneSqlExecuted() {
         //given
         BankAccountViewAModel accountFrom =
                 bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
@@ -101,117 +101,12 @@ public class MoneyTransferTests extends BaseApplicationTest {
                         .build());
         SQLStatementCountValidator.reset();
 
-        //when
-        List<MoneyTransferViewAModel> all = searchService.findAll(MoneyTransferViewAModel.class);
+        //when-then
+        AssertUtils.assertSelectCountExactlyOne(() -> searchService.findAll(MoneyTransferViewAModel.class));
+        AssertUtils.assertSelectCountExactlyOne(() -> searchService.findAll(MoneyTransferViewBModel.class));
 
-        //then
-        SQLStatementCountValidator.assertSelectCount(1);
-        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
-
-        Assertions.assertEquals(1, all.size());
-        MoneyTransferViewAModel retrieveResponse = all.get(0);
-        Assertions.assertEquals(createResponse.getAmount(), retrieveResponse.getAmount());
-        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
-    }
-
-    @Test
-    void givenOneMoneyTransfer_whenFindOneMoneyTransferViewA_thenOneRecordRetrieved() {
-        //given
-        BankAccountViewAModel accountFrom =
-                bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
-                        .balance(100L)
-                        .build());
-        BankAccountViewAModel accountTo =
-                bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
-                        .balance(200L)
-                        .build());
-        MoneyTransferViewBModel createResponse =
-                managementService.createMoneyTransfer(MoneyTransferCreationModel.builder()
-                        .fromBankAccountId(accountFrom.getId())
-                        .toBankAccountId(accountTo.getId())
-                        .amount(10L)
-                        .build());
-        SQLStatementCountValidator.reset();
-
-        //when
-        MoneyTransferViewAModel retrieveResponse = searchService.findOneOrThrow(createResponse.getId(),
-                MoneyTransferViewAModel.class);
-
-        //then
-        SQLStatementCountValidator.assertSelectCount(1);
-        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
-
-        Assertions.assertNotNull(retrieveResponse);
-        Assertions.assertEquals(createResponse.getAmount(), retrieveResponse.getAmount());
-        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
-    }
-
-    @Test
-    void givenOneMoneyTransfer_whenFindAllMoneyTransferViewB_thenOneRecordRetrieved() {
-        //given
-        BankAccountViewAModel accountFrom =
-                bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
-                        .balance(100L)
-                        .build());
-        BankAccountViewAModel accountTo =
-                bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
-                        .balance(200L)
-                        .build());
-        MoneyTransferViewBModel createResponse =
-                managementService.createMoneyTransfer(MoneyTransferCreationModel.builder()
-                        .fromBankAccountId(accountFrom.getId())
-                        .toBankAccountId(accountTo.getId())
-                        .amount(10L)
-                        .build());
-        SQLStatementCountValidator.reset();
-
-        //when
-        List<MoneyTransferViewBModel> all = searchService.findAll(MoneyTransferViewBModel.class);
-
-        //then
-        SQLStatementCountValidator.assertSelectCount(1);
-        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
-
-        Assertions.assertEquals(1, all.size());
-        MoneyTransferViewBModel retrieveResponse = all.get(0);
-        Assertions.assertEquals(createResponse.getAmount(), retrieveResponse.getAmount());
-        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
-        Assertions.assertEquals(createResponse.getFromBankAccountId(), retrieveResponse.getFromBankAccountId());
-        Assertions.assertEquals(createResponse.getToBankAccountId(), retrieveResponse.getToBankAccountId());
-    }
-
-    @Test
-    void givenOneMoneyTransfer_whenFindOneMoneyTransferViewB_thenOneRecordRetrieved() {
-        //given
-        BankAccountViewAModel accountFrom =
-                bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
-                        .balance(100L)
-                        .build());
-        BankAccountViewAModel accountTo =
-                bankAccountManagementService.createBankAccount(BankAccountCreationModel.builder()
-                        .balance(200L)
-                        .build());
-        MoneyTransferViewBModel createResponse =
-                managementService.createMoneyTransfer(MoneyTransferCreationModel.builder()
-                        .fromBankAccountId(accountFrom.getId())
-                        .toBankAccountId(accountTo.getId())
-                        .amount(10L)
-                        .build());
-        SQLStatementCountValidator.reset();
-
-        //when
-        MoneyTransferViewBModel retrieveResponse = searchService.findOneOrThrow(createResponse.getId(),
-                MoneyTransferViewBModel.class);
-
-        //then
-        SQLStatementCountValidator.assertSelectCount(1);
-        Assertions.assertEquals(1, QueryCountHolder.getGrandTotal().getTotal());
-
-        Assertions.assertNotNull(retrieveResponse);
-        Assertions.assertEquals(createResponse.getAmount(), retrieveResponse.getAmount());
-        Assertions.assertEquals(createResponse.getId(), retrieveResponse.getId());
-        Assertions.assertEquals(createResponse.getFromBankAccountId(), retrieveResponse.getFromBankAccountId());
-        Assertions.assertEquals(createResponse.getToBankAccountId(), retrieveResponse.getToBankAccountId());
+        AssertUtils.assertSelectCountExactlyOne(() -> searchService.findOneOrThrow(createResponse.getId(), MoneyTransferViewAModel.class));
+        AssertUtils.assertSelectCountExactlyOne(() -> searchService.findOneOrThrow(createResponse.getId(), MoneyTransferViewBModel.class));
     }
 
 }

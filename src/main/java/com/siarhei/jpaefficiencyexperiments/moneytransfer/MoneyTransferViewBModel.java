@@ -10,8 +10,18 @@ import java.util.UUID;
 public class MoneyTransferViewBModel {
 
     private UUID id;
-    private UUID fromBankAccountId;
-    private UUID toBankAccountId;
+    private OperationModel sendOperation;
+    private OperationModel receiveOperation;
     private Long amount;
+
+    @Setter
+    @Getter
+    public static class OperationModel {
+
+        private UUID id;
+        private UUID bankAccountId;
+        private Long amount;
+
+    }
 
 }
