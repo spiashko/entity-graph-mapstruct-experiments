@@ -8,22 +8,24 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
-public class BaseOperationEntity extends BaseJournalEntity {
+public abstract class BaseOperationEntity extends BaseJournalEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;
+    private UUID id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "fk_bank_account")
     private BankAccount bankAccount;
+
     @NotNull
     @Column(name = "amount")
     private Long amount;
@@ -32,7 +34,7 @@ public class BaseOperationEntity extends BaseJournalEntity {
     @Column(name = "operation_source", insertable = false, updatable = false)
     private OperationSource operationSource;
 
-    public BaseOperationEntity(BankAccount bankAccount, @NotNull Long amount) {
+    public BaseOperationEntity(BankAccount bankAccount, Long amount) {
         this.bankAccount = bankAccount;
         this.amount = amount;
     }

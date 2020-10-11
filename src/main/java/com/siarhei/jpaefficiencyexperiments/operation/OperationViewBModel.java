@@ -3,11 +3,13 @@ package com.siarhei.jpaefficiencyexperiments.operation;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 public class OperationViewBModel {
 
-    private Long id;
+    private UUID id;
     private BankAccountModel bankAccount;
     private Long amount;
     private OperationSource operationSource;
@@ -16,7 +18,7 @@ public class OperationViewBModel {
     @Setter
     public static class BankAccountModel {
 
-        private Long id;
+        private UUID id;
         private Long balance;
 
     }

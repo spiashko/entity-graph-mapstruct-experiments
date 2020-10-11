@@ -1,9 +1,11 @@
 package com.siarhei.jpaefficiencyexperiments.bankaccount;
 
+import java.util.UUID;
+
 public interface BalanceManagementService {
 
-    void addToBalance(Long id, Long amount);
+    void addToBalance(UUID id, Long amount);
 
-    void subtractFromBalance(Long id, Long amount);
+    void subtractFromBalance(UUID id, Long amount);
 
 }

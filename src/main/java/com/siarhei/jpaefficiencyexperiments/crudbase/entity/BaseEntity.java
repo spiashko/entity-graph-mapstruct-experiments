@@ -6,11 +6,12 @@ import org.springframework.data.domain.Persistable;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
+import java.util.UUID;
 
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class BaseEntity implements Persistable<Long> {
+public abstract class BaseEntity implements Persistable<UUID> {
 
     @Override
     public boolean equals(Object o) {
@@ -36,7 +37,7 @@ public abstract class BaseEntity implements Persistable<Long> {
     }
 
     @Override
-    public abstract Long getId();
+    public abstract UUID getId();
 
     @Transient
     @Override

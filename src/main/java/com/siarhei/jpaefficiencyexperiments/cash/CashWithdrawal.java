@@ -5,12 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -18,19 +13,31 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Entity
 @DiscriminatorValue("WITHDRAWAL")
-public class CashWithdrawal extends CashAction {
+@NamedEntityGraph(
+        name = "CashWithdrawal.all",
+        attributeNodes = {
+                @NamedAttributeNode(value = "cashWithdrawalOperation", subgraph = "Operation.bankAccount"),
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "Operation.bankAccount",
+                        attributeNodes = @NamedAttributeNode("bankAccount")
+                )
+        }
+)
+public class CashWithdrawal extends CashAction<CashWithdrawalOperation> {
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "fk_withdrawal_operation", updatable = false)
     private CashWithdrawalOperation cashWithdrawalOperation;
 
     @NotNull
-    @Column(name = "included_fee")
-    private Long includedFee;
+    @Column(name = "withdrawal_fee")
+    private Long fee;
 
-    public void setCashWithdrawalOperation(CashWithdrawalOperation cashWithdrawalOperation) {
-        cashWithdrawalOperation.setCashWithdrawal(this);
-        this.cashWithdrawalOperation = cashWithdrawalOperation;
+    @Override
+    public CashWithdrawalOperation getCashOperation() {
+        return cashWithdrawalOperation;
     }
-
 }

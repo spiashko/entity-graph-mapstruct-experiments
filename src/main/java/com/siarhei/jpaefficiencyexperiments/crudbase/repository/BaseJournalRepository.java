@@ -5,7 +5,9 @@ import com.cosium.spring.data.jpa.entity.graph.repository.EntityGraphJpaSpecific
 import com.siarhei.jpaefficiencyexperiments.crudbase.entity.BaseJournalEntity;
 import org.springframework.data.repository.NoRepositoryBean;
 
+import java.util.UUID;
+
 @NoRepositoryBean
 public interface BaseJournalRepository<T extends BaseJournalEntity>
-        extends EntityGraphJpaRepository<T, Long>, EntityGraphJpaSpecificationExecutor<T> {
+        extends EntityGraphJpaRepository<T, UUID>, EntityGraphJpaSpecificationExecutor<T> {
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,37 +19,40 @@ public class OperationResource {
 
     @GetMapping(value = "/operations")
     public ResponseEntity<List<OperationViewAModel>> getAllViewA() {
-        List<OperationViewAModel> result = summarySearchService.findAll(OperationViewSelectors.viewA);
+        List<OperationViewAModel> result = summarySearchService.findAll(OperationViewAModel.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/operations-viewb")
     public ResponseEntity<List<OperationViewBModel>> getAllViewB() {
-        List<OperationViewBModel> result = summarySearchService.findAll(OperationViewSelectors.viewB);
+        List<OperationViewBModel> result = summarySearchService.findAll(OperationViewBModel.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/operations-viewc")
     public ResponseEntity<List<OperationViewCModel>> getAllViewC() {
-        List<OperationViewCModel> result = searchService.findAll(OperationViewSelectors.viewC);
+        List<OperationViewCModel> result = searchService.findAll(OperationViewCModel.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/operations/{id}")
-    public ResponseEntity<OperationViewAModel> getOneViewA(@PathVariable Long id) {
-        OperationViewAModel result = summarySearchService.findOneOrThrow(id, OperationViewSelectors.viewA);
+    public ResponseEntity<OperationViewAModel> getOneViewA(
+            @PathVariable UUID id) {
+        OperationViewAModel result = summarySearchService.findOneOrThrow(id, OperationViewAModel.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/operations-viewb/{id}")
-    public ResponseEntity<OperationViewBModel> getOneViewB(@PathVariable Long id) {
-        OperationViewBModel result = summarySearchService.findOneOrThrow(id, OperationViewSelectors.viewB);
+    public ResponseEntity<OperationViewBModel> getOneViewB(
+            @PathVariable UUID id) {
+        OperationViewBModel result = summarySearchService.findOneOrThrow(id, OperationViewBModel.class);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(value = "/operations-viewc/{id}")
-    public ResponseEntity<OperationViewCModel> getOneViewC(@PathVariable Long id) {
-        OperationViewCModel result = searchService.findOneOrThrow(id, OperationViewSelectors.viewC);
+    public ResponseEntity<OperationViewCModel> getOneViewC(
+            @PathVariable UUID id) {
+        OperationViewCModel result = searchService.findOneOrThrow(id, OperationViewCModel.class);
         return ResponseEntity.ok(result);
     }
 

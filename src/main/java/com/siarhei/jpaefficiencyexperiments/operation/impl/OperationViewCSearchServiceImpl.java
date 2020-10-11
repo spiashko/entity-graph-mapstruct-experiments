@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OperationViewCSearchServiceImpl
-        extends BaseSearchServiceImpl<OperationViewC, OperationViewCRepository, OperationViewCFromEntityMapper>
+        extends BaseSearchServiceImpl<OperationViewC, OperationViewCRepository, OperationViewCRetrieveContextResolver>
         implements OperationViewCSearchService {
 
     public OperationViewCSearchServiceImpl(
             OperationViewCRepository repository,
-            OperationViewCFromEntityMapper mapper) {
+            OperationViewCRetrieveContextResolver mapper) {
         super(mapper, repository);
     }
 

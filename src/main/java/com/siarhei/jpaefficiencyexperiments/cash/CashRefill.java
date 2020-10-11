@@ -5,25 +5,35 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @DiscriminatorValue("REFILL")
-public class CashRefill extends CashAction {
+@NamedEntityGraph(
+        name = "CashRefill.all",
+        attributeNodes = {
+                @NamedAttributeNode(value = "cashRefillOperation", subgraph = "Operation.bankAccount"),
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "Operation.bankAccount",
+                        attributeNodes = @NamedAttributeNode("bankAccount")
+                )
+        }
+)
+public class CashRefill extends CashAction<CashRefillOperation> {
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "fk_refill_operation", updatable = false)
     private CashRefillOperation cashRefillOperation;
 
-    public void setCashRefillOperation(CashRefillOperation cashRefillOperation) {
-        cashRefillOperation.setCashRefill(this);
-        this.cashRefillOperation = cashRefillOperation;
+    @Override
+    public CashRefillOperation getCashOperation() {
+        return this.cashRefillOperation;
     }
 }

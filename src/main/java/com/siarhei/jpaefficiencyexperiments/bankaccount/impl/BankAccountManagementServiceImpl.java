@@ -6,24 +6,29 @@ import com.siarhei.jpaefficiencyexperiments.bankaccount.BankAccountManagementSer
 import com.siarhei.jpaefficiencyexperiments.bankaccount.BankAccountViewAModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 public class BankAccountManagementServiceImpl implements BankAccountManagementService {
 
     private final BankAccountRepository repository;
-    private final BankAccountMapper mapper;
-    private final BankAccountFromEntityMapper fromEntityMapper;
+    private final BankAccountCreationMapper creationMapper;
+    private final BankAccountSearchMapper searchMapper;
 
+    @Transactional
     @Override
     public BankAccountViewAModel createBankAccount(BankAccountCreationModel creationModel) {
-        BankAccount bankAccount = mapper.map(creationModel);
+        BankAccount bankAccount = creationMapper.map(creationModel);
         repository.save(bankAccount);
-        return fromEntityMapper.mapToViewA(bankAccount);
+        return searchMapper.mapToViewA(bankAccount);
     }
 
+    @Transactional
     @Override
-    public void deleteBankAccountById(Long id) {
+    public void deleteBankAccountById(UUID id) {
         repository.deleteById(id);
     }
 }

@@ -9,3 +9,7 @@ COMMIT 7d34c4ca NOTES:
 COMMIT 20deb51c NOTES:
 - swap of pk brought to a lot of queries on OperationView requests
 - cash_action should contain 2 separate references to avoid 2 sql
+
+OTHER:
+- when switch to SEQUENCE from IDENTITY (because batch insert/update not possible for IDENTITY)
+then sequences in db by default should have `increment 50`

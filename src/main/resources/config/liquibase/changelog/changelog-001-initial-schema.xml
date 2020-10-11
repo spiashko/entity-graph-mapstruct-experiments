@@ -4,17 +4,23 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
+    <changeSet author="siarhei.piashko" id="changelog-001-uuid-ossp">
+        <!--postgres sql highlight-->
+        <sql>
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+        </sql>
+    </changeSet>
+
+
     <changeSet author="siarhei.piashko" id="changelog-001-bank_account">
         <!--postgres sql highlight-->
         <sql>
             create table bank_account
             (
-                id         SERIAL PRIMARY KEY,
+                id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
                 created_at TIMESTAMP NOT NULL,
-                created_by INTEGER   NOT NULL,
                 updated_at TIMESTAMP NOT NULL,
-                updated_by INTEGER   NOT NULL,
 
                 balance    NUMERIC   NOT NULL
             );
@@ -26,31 +32,69 @@
         <sql>
             create table operation
             (
-                id               SERIAL PRIMARY KEY,
+                id               UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
                 created_at       TIMESTAMP NOT NULL,
-                created_by       INTEGER   NOT NULL,
                 updated_at       TIMESTAMP NOT NULL,
-                updated_by       INTEGER   NOT NULL,
 
-                fk_bank_account  INTEGER   NOT NULL REFERENCES bank_account (id),
+                fk_bank_account  UUID      NOT NULL REFERENCES bank_account (id),
 
-                operation_source TEXT      NOT NULL,
+                operation_source TEXT      NOT NULL
+                    CONSTRAINT operation_source_is_one_of
+                        CHECK (operation_source IN ('RECEIVE_MONEY_TRANSFER', 'SEND_MONEY_TRANSFER',
+                                                    'CASH_REFILL', 'CASH_WITHDRAWAL')),
+
                 amount           NUMERIC   NOT NULL
             );
         </sql>
     </changeSet>
 
-    <changeSet author="siarhei.piashko" id="changelog-001-is_withdrawal_cash_action-function">
+    <changeSet author="siarhei.piashko" id="changelog-001-is_x_operation-functions">
         <!--postgres sql highlight-->
         <createProcedure>
-            create or replace function is_receive_money_transfer_operation(INTEGER) returns boolean as
+            create or replace function is_receive_money_transfer_operation(UUID) returns boolean as
             $$
             select exists(
                            select 1
                            from "operation"
                            where id = $1
                              and operation_source = 'RECEIVE_MONEY_TRANSFER'
+                       );
+            $$ language sql;
+        </createProcedure>
+        <!--postgres sql highlight-->
+        <createProcedure>
+            create or replace function is_send_money_transfer_operation(UUID) returns boolean as
+            $$
+            select exists(
+                           select 1
+                           from "operation"
+                           where id = $1
+                             and operation_source = 'SEND_MONEY_TRANSFER'
+                       );
+            $$ language sql;
+        </createProcedure>
+        <!--postgres sql highlight-->
+        <createProcedure>
+            create or replace function is_cash_refill_operation(UUID) returns boolean as
+            $$
+            select exists(
+                           select 1
+                           from "operation"
+                           where id = $1
+                             and operation_source = 'CASH_REFILL'
+                       );
+            $$ language sql;
+        </createProcedure>
+        <!--postgres sql highlight-->
+        <createProcedure>
+            create or replace function is_cash_withdrawal_operation(UUID) returns boolean as
+            $$
+            select exists(
+                           select 1
+                           from "operation"
+                           where id = $1
+                             and operation_source = 'CASH_WITHDRAWAL'
                        );
             $$ language sql;
         </createProcedure>
@@ -62,17 +106,19 @@
         <sql>
             create table money_transfer
             (
-                id                   SERIAL PRIMARY KEY,
+                id                   UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
-                created_at           TIMESTAMP                         NOT NULL,
-                created_by           INTEGER                           NOT NULL,
-                updated_at           TIMESTAMP                         NOT NULL,
-                updated_by           INTEGER                           NOT NULL,
+                created_at           TIMESTAMP                      NOT NULL,
+                updated_at           TIMESTAMP                      NOT NULL,
 
-                fk_send_operation    INTEGER REFERENCES operation (id) NOT NULL,
-                fk_receive_operation INTEGER REFERENCES operation (id) NOT NULL,
+                fk_send_operation    UUID REFERENCES operation (id) NOT NULL
+                    CONSTRAINT fk_send_operation_is_send_money_transfer_operation
+                        CHECK (is_send_money_transfer_operation(fk_send_operation)),
+                fk_receive_operation UUID REFERENCES operation (id) NOT NULL
+                    CONSTRAINT fk_send_operation_is_receive_money_transfer_operation
+                        CHECK (is_receive_money_transfer_operation(fk_receive_operation)),
 
-                amount               NUMERIC                           NOT NULL
+                amount               NUMERIC                        NOT NULL
             );
         </sql>
     </changeSet>
@@ -82,23 +128,29 @@
         <sql>
             create table cash_action
             (
-                id                      SERIAL PRIMARY KEY,
+                id                      UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
                 created_at              TIMESTAMP NOT NULL,
-                created_by              INTEGER   NOT NULL,
                 updated_at              TIMESTAMP NOT NULL,
-                updated_by              INTEGER   NOT NULL,
 
-                action_type             TEXT      NOT NULL,
+                action_type             TEXT      NOT NULL
+                    CONSTRAINT action_type_is_one_of
+                        CHECK (action_type IN ('REFILL', 'WITHDRAWAL')),
+
                 cash_amount             NUMERIC   NOT NULL,
 
-                fk_refill_operation     INTEGER REFERENCES operation (id)
-                    CHECK ((NOT action_type = 'REFILL') OR (fk_refill_operation IS NOT NULL)),
+                fk_refill_operation     UUID REFERENCES operation (id)
+                    CONSTRAINT fk_refill_operation_not_null_for_refill_and_is_cash_refill
+                        CHECK ((NOT action_type = 'REFILL') OR (fk_refill_operation IS NOT NULL
+                            AND is_cash_refill_operation(fk_refill_operation))),
 
-                fk_withdrawal_operation INTEGER REFERENCES operation (id)
-                    CHECK ((NOT action_type = 'WITHDRAWAL') OR (fk_withdrawal_operation IS NOT NULL)),
-                included_fee            NUMERIC
-                    CHECK ((NOT action_type = 'WITHDRAWAL') OR (included_fee IS NOT NULL))
+                fk_withdrawal_operation UUID REFERENCES operation (id)
+                    CONSTRAINT fk_withdrawal_operation_not_null_for_withdrawal
+                        CHECK ((NOT action_type = 'WITHDRAWAL') OR (fk_withdrawal_operation IS NOT NULL
+                            AND is_cash_withdrawal_operation(fk_withdrawal_operation))),
+                withdrawal_fee          NUMERIC
+                    CONSTRAINT withdrawal_fee_not_null_for_withdrawal
+                        CHECK ((NOT action_type = 'WITHDRAWAL') OR (withdrawal_fee IS NOT NULL))
             );
         </sql>
     </changeSet>

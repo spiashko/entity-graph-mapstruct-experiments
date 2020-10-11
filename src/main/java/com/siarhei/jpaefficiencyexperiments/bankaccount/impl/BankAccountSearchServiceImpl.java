@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BankAccountSearchServiceImpl
-        extends BaseSearchServiceImpl<BankAccount, BankAccountRepository, BankAccountFromEntityMapper>
+        extends BaseSearchServiceImpl<BankAccount, BankAccountRepository, BankAccountRetrieveContextResolver>
         implements BankAccountSearchService {
 
     public BankAccountSearchServiceImpl(
             BankAccountRepository repository,
-            BankAccountFromEntityMapper mapper) {
-        super(mapper, repository);
+            BankAccountRetrieveContextResolver resolver) {
+        super(resolver, repository);
     }
 }
