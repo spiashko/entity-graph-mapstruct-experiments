@@ -52,9 +52,13 @@ public class MoneyTransferTests extends BaseApplicationTest {
         // insert operation from
         // insert operation to
         // insert money transfer
-        // total 5
+        // update bank account 1
+        // update bank account 2
+        // total 7
+        SQLStatementCountValidator.assertSelectCount(2);
         SQLStatementCountValidator.assertInsertCount(3);
-        Assertions.assertEquals(5, QueryCountHolder.getGrandTotal().getTotal());
+        SQLStatementCountValidator.assertUpdateCount(2);
+        Assertions.assertEquals(7, QueryCountHolder.getGrandTotal().getTotal());
 
         Assertions.assertNotNull(moneyTransfer);
         Assertions.assertNotNull(moneyTransfer.getId());

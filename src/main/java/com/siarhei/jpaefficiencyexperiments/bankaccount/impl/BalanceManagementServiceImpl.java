@@ -15,7 +15,7 @@ import java.util.UUID;
 @Service
 public class BalanceManagementServiceImpl implements BalanceManagementService {
 
-    private final BankAccountRepository customerRepository;
+    private final BankAccountRepository bankAccountRepository;
     private final BankAccountSearchService searchService;
 
     @Transactional(propagation = Propagation.MANDATORY, isolation = Isolation.REPEATABLE_READ)
@@ -23,7 +23,7 @@ public class BalanceManagementServiceImpl implements BalanceManagementService {
     public void addToBalance(UUID id, Long amount) {
         BankAccount customer = searchService.findOneOrThrow(id);
         customer.setBalance(customer.getBalance() + amount);
-        customerRepository.save(customer);
+        bankAccountRepository.save(customer);
     }
 
     @Transactional(propagation = Propagation.MANDATORY, isolation = Isolation.REPEATABLE_READ)
@@ -31,6 +31,6 @@ public class BalanceManagementServiceImpl implements BalanceManagementService {
     public void subtractFromBalance(UUID id, Long amount) {
         BankAccount customer = searchService.findOneOrThrow(id);
         customer.setBalance(customer.getBalance() - amount);
-        customerRepository.save(customer);
+        bankAccountRepository.save(customer);
     }
 }

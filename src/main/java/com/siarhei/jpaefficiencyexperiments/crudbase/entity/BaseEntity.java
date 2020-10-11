@@ -2,7 +2,6 @@ package com.siarhei.jpaefficiencyexperiments.crudbase.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.MappedSuperclass;
@@ -12,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class BaseEntity extends AbstractAggregateRoot implements Persistable<UUID> {
+public abstract class BaseEntity implements Persistable<UUID> {
 
     @Override
     public boolean equals(Object o) {

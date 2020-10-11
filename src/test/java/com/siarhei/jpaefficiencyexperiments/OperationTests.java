@@ -2,17 +2,21 @@ package com.siarhei.jpaefficiencyexperiments;
 
 import com.siarhei.jpaefficiencyexperiments.bankaccount.BankAccountCreationModel;
 import com.siarhei.jpaefficiencyexperiments.bankaccount.BankAccountManagementService;
+import com.siarhei.jpaefficiencyexperiments.bankaccount.BankAccountSearchService;
 import com.siarhei.jpaefficiencyexperiments.bankaccount.BankAccountViewAModel;
 import com.siarhei.jpaefficiencyexperiments.cash.*;
 import com.siarhei.jpaefficiencyexperiments.moneytransfer.MoneyTransferCreationModel;
 import com.siarhei.jpaefficiencyexperiments.moneytransfer.MoneyTransferManagementService;
 import com.siarhei.jpaefficiencyexperiments.moneytransfer.MoneyTransferViewBModel;
 import com.siarhei.jpaefficiencyexperiments.operation.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class OperationTests extends BaseApplicationTest {
 
+    @Autowired
+    private BankAccountSearchService bankAccountSearchService;
     @Autowired
     private OperationSummarySearchService operationSummarySearchService;
     @Autowired
@@ -75,6 +79,11 @@ public class OperationTests extends BaseApplicationTest {
         AssertUtils.assertSelectCountExactlyOne(() -> operationSummarySearchService.findOneOrThrow(moneyTransfer.getReceiveOperation().getId(), OperationViewAModel.class));
         AssertUtils.assertSelectCountExactlyOne(() -> operationSummarySearchService.findOneOrThrow(moneyTransfer.getReceiveOperation().getId(), OperationViewBModel.class));
         AssertUtils.assertSelectCountExactlyOne(() -> operationViewCSearchService.findOneOrThrow(moneyTransfer.getReceiveOperation().getId(), OperationViewCModel.class));
+
+        BankAccountViewAModel accountOneAfter = bankAccountSearchService.findOneOrThrow(accountOne.getId(), BankAccountViewAModel.class);
+        Assertions.assertEquals(89L, accountOneAfter.getBalance());
+        BankAccountViewAModel accountTwoAfter = bankAccountSearchService.findOneOrThrow(accountTwo.getId(), BankAccountViewAModel.class);
+        Assertions.assertEquals(210L, accountTwoAfter.getBalance());
     }
 
 }

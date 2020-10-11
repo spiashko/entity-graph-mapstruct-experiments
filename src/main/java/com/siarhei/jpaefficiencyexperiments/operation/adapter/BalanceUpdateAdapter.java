@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 @RequiredArgsConstructor
 @Service
@@ -21,7 +20,6 @@ class BalanceUpdateAdapter {
 
     @EventListener(OperationPreparedEvent.class)
     @Transactional(propagation = Propagation.MANDATORY, isolation = Isolation.REPEATABLE_READ)
-    @Validated
     public void updateBalance(OperationPreparedEvent event) {
         Operation operation = event.getOperation();
         if (!operation.isNew()) {
