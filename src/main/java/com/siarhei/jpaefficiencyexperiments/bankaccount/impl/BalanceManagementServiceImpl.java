@@ -6,6 +6,7 @@ import com.siarhei.jpaefficiencyexperiments.bankaccount.BankAccountSearchService
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
@@ -17,7 +18,7 @@ public class BalanceManagementServiceImpl implements BalanceManagementService {
     private final BankAccountRepository customerRepository;
     private final BankAccountSearchService searchService;
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Transactional(propagation = Propagation.MANDATORY, isolation = Isolation.REPEATABLE_READ)
     @Override
     public void addToBalance(UUID id, Long amount) {
         BankAccount customer = searchService.findOneOrThrow(id);
@@ -25,7 +26,7 @@ public class BalanceManagementServiceImpl implements BalanceManagementService {
         customerRepository.save(customer);
     }
 
-    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Transactional(propagation = Propagation.MANDATORY, isolation = Isolation.REPEATABLE_READ)
     @Override
     public void subtractFromBalance(UUID id, Long amount) {
         BankAccount customer = searchService.findOneOrThrow(id);

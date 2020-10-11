@@ -6,6 +6,7 @@ import com.siarhei.jpaefficiencyexperiments.moneytransfer.MoneyTransferManagemen
 import com.siarhei.jpaefficiencyexperiments.moneytransfer.MoneyTransferViewBModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -20,7 +21,7 @@ public class MoneyTransferManagementServiceImpl implements MoneyTransferManageme
     private final EntityManager entityManager;
 
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public MoneyTransferViewBModel createMoneyTransfer(MoneyTransferCreationModel createModel) {
         MoneyTransfer moneyTransfer = creationMapper.map(createModel, entityManager);
         repository.save(moneyTransfer);
