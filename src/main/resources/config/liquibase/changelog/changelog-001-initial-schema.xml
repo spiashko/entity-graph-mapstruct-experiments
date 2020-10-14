@@ -4,14 +4,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="siarhei.piashko" id="changelog-001-uuid-ossp">
-        <!--postgres sql highlight-->
-        <sql>
-            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-        </sql>
-    </changeSet>
-
-
     <changeSet author="siarhei.piashko" id="changelog-001-bank_account">
         <!--postgres sql highlight-->
         <sql>
